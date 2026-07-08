@@ -12,7 +12,7 @@ This file provides guidance to AI agents when working with code in this reposito
 
 ```bash
 bun run test       # Run all tests
-bun typecheck      # Type check (tsgo / native TypeScript preview)
+bun typecheck      # Type check (TypeScript 7, native tsc)
 bun run lint       # Lint
 bun run format     # Format
 bun run fix        # Lint + format + autofix

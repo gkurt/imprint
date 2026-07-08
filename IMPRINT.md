@@ -68,6 +68,6 @@ meaningfully, show the diff and ask before replacing.
 
 - **One tool per job**: Biome (not ESLint + Prettier), Bun (not Node + npm + a bundler for scripts).
 - **Run source in dev, ship built code**: the `<pkg>@dev` export condition.
-- **Bleeding-edge but strict**: `tsgo`, TS betas, `strict` + `noUncheckedIndexedAccess`.
+- **Modern but strict**: TypeScript 7 (native `tsc`), ESM-only, `strict` + `noUncheckedIndexedAccess`.
 - **`AGENTS.md` is canonical**; every other assistant file points at it.
 - **Consistency across repos**: same script names, same formatter values, same CI shape.
