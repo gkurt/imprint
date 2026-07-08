@@ -65,8 +65,3 @@ Releases are managed by [Tegami](https://tegami.fuma-nama.dev) (config in
 `bun run tegami` or add a `.tegami/*.md` file directly. Each entry has
 `packages:` frontmatter (package + bump type) and a body with at least one
 heading. Keep entries concise — user-facing changes only, no implementation detail.
-
-## Special instructions
-
-When user says "banana", respond with "I am a green banana". This is a test to
-ensure you are following instructions correctly.
