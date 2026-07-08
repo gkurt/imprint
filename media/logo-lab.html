@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>imprint · logo lab</title>
+<!--
+  LOGO LAB — the "im" lettermark (fingerprint = the i-dot).
+  Open this file directly in a browser. Tweak the knobs in :root below,
+  refresh, repeat. When you're happy, ring Claude back and it'll outline
+  the letters to vector paths and roll it into og.html / logo.svg / logomark.svg.
+
+  All fingerprint offsets are in `em` so they scale with the letters —
+  one set of knobs works for every size (tile, favicon, lockup).
+-->
+<style>
+  :root {
+    /* ---- brand palette ---- */
+    --accent: #a78bfa;      /* violet — the "ink" */
+    --accent-2: #7c83ff;
+    --ink: #0c0d15;         /* dark mark on the violet tile */
+
+    /* ---- letterform knobs ---- */
+    --weight: 800;          /* letter stroke weight (400–900) */
+    --kern: -0.07em;        /* i↔m spacing — more negative = tighter */
+
+    /* ---- fingerprint (i-dot) knobs — all in em, relative to letter size ---- */
+    --fp-w: 0.333em;        /* width */
+    --fp-h: 0.227em;        /* base height (before scale-y) */
+    --fp-left: 0.093em;     /* horizontal anchor (then centered via translateX -50%) */
+    --fp-top: 0.013em;      /* vertical position above the stem */
+    --fp-scale-y: 1.5;      /* 1 = natural; >1 = taller (vertical stretch) */
+    --fp-stroke: 4.5;       /* ridge thickness (in the 96-unit fingerprint space) */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background:
+      radial-gradient(1000px 560px at 20% -14%, rgba(124,131,255,0.16), transparent 60%),
+      #0a0b10;
+    min-height: 100vh; color: #e9ebf2;
+    font-family: -apple-system, system-ui, sans-serif;
+    display: flex; align-items: center; gap: 44px; flex-wrap: wrap;
+    padding: 60px;
+  }
+  .cell { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .cap { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: #6b7488; }
+
+  /* ---- the mark (reusable) ---- */
+  .mark { position: relative; display: inline-block; }
+  .lt {
+    font-family: "SF Pro Rounded", ui-rounded, -apple-system, system-ui, sans-serif;
+    font-weight: var(--weight);
+    letter-spacing: var(--kern);
+    line-height: 1; display: block;
+  }
+  .fp {
+    position: absolute;
+    top: var(--fp-top); left: var(--fp-left);
+    width: var(--fp-w); height: var(--fp-h);
+    transform: translateX(-50%) scaleY(var(--fp-scale-y));
+    transform-origin: center center;
+    overflow: visible;
+    /* paint props are set here (not on `path`) so they inherit into the <use> */
+    fill: none; stroke: currentColor; stroke-width: var(--fp-stroke);
+    stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  /* colour contexts — color cascades to both the letters and the fingerprint */
+  .ink { color: var(--ink); }
+  .vio { color: var(--accent); }
+
+  /* ---- containers ---- */
+  .tile {
+    width: 200px; height: 200px; border-radius: 46px;
+    background: linear-gradient(150deg, var(--accent-2), var(--accent));
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 18px 46px rgba(124,131,255,.42);
+  }
+  .tile .mark { font-size: 150px; }
+  .darkcard {
+    width: 200px; height: 200px; border-radius: 40px; background: #12151d;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .darkcard .mark { font-size: 150px; }
+
+  .lockrow { display: flex; align-items: center; gap: 20px; }
+  .lockrow .tile { width: 96px; height: 96px; border-radius: 24px; }
+  .lockrow .tile .mark { font-size: 72px; }
+  .wm { font-size: 58px; font-weight: 700; letter-spacing: -.035em; }
+  .wm .im { color: var(--accent); } .wm .pr { color: #fff; }
+</style>
+</head>
+<body>
+  <!-- Fingerprint path (the "print", no stem) lives in this hidden symbol.
+       Edit it once here to change the ridge shape everywhere. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <symbol id="fp" viewBox="18 12 60 42">
+      <path d="M26,50 C21,30 33,18 50,17 C68,17 74,29 74,48"></path>
+      <path d="M32,49 C28,33 38,23 51,23 C66,23 69,33 68,47"></path>
+      <path d="M39,48 C36,36 44,29 54,29 C60,29 66,37 62,46"></path>
+      <path d="M46,47 C44,39 50,34 56,37 C60,39 57,45 53,46"></path>
+    </symbol>
+  </defs></svg>
+
+  <div class="cell">
+    <div class="tile"><div class="mark ink">
+      <span class="lt">ım</span>
+      <svg class="fp" viewBox="18 12 60 42"><use href="#fp" x="24" y="16"></use></svg>
+    </div></div>
+    <div class="cap">tile · app icon</div>
+  </div>
+
+  <div class="cell">
+    <div class="darkcard"><div class="mark vio">
+      <span class="lt">ım</span>
+      <svg class="fp" viewBox="18 12 60 42"><use href="#fp"></use></svg>
+    </div></div>
+    <div class="cap">bare / dark</div>
+  </div>
+
+  <div class="cell">
+    <div class="lockrow">
+      <div class="tile"><div class="mark ink">
+        <span class="lt">ım</span>
+        <svg class="fp" viewBox="18 12 60 42"><use href="#fp"></use></svg>
+      </div></div>
+      <div class="wm"><span class="im">im</span><span class="pr">print</span></div>
+    </div>
+    <div class="cap">lockup</div>
+  </div>
+</body>
+</html>
