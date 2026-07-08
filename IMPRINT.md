@@ -4,8 +4,10 @@
 > repository and where each preference lives. To "imprint" a repo means: apply
 > these preferences to it, adapting to the project's language and archetype.
 
-If you were invoked via the `imprint` skill, you already found this file in a
-`<username>/imprint` repo. Follow the procedure below.
+If you were invoked via the `imprint` skill, you already resolved this file from
+an imprint source — a local directory or a `<username>/imprint` repo (public or
+private). Read the paths below relative to that source, not the repo you're
+imprinting. Follow the procedure below.
 
 ## How to imprint a repository
 

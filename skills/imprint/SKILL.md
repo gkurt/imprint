@@ -22,44 +22,65 @@ what the repo already is rather than blindly overwriting.
 
 ### 1. Pick whose imprint to apply
 
-Determine the user's own GitHub handle, in this order:
+An imprint source can be **a local directory** or **a GitHub repo (public or
+private)**. If the user named one explicitly ("imprint from `~/dev/imprint`", or
+"from `torvalds`"), use that and skip the detection below.
 
-1. `gh api user --jq .login` (if `gh` is authenticated).
-2. Parse `git config --get remote.origin.url` for `github.com[:/]<owner>/`.
-3. `git config user.name` as a last hint.
+Otherwise, resolve the user's own imprint, checking cheapest-first:
 
-Then check whether that user has their own imprint repo:
+1. **Local clone** — the user may already have it on disk. Check, in order:
+   - `$IMPRINT_DIR` if set.
+   - Common spots near the current repo: a sibling `../imprint`, and dev roots
+     like `~/imprint`, `~/dev/imprint`, `~/Work/**/imprint`, `~/src/imprint`.
+   - A directory is a valid imprint if it contains an `IMPRINT.md`.
+2. **Their GitHub handle**, via `gh api user --jq .login` (if `gh` is
+   authenticated), else parse `git config --get remote.origin.url` for
+   `github.com[:/]<owner>/`, else `git config user.name` as a hint. Then:
+   ```bash
+   gh repo view <handle>/imprint --json name,visibility 2>/dev/null
+   ```
+   `gh` sees **private** repos the user can access, so this works either way.
+
+- **If a local clone or `<handle>/imprint` is found** → use it. Tell the user
+  which source (and whether it's local / private / public).
+- **If none is found** → ask:
+
+  > No imprint found for you (local or on GitHub). Imprint from someone else's, or
+  > a local path? (default: `gkurt`)
+
+  Accept a local path, any `owner/imprint`, or a bare `owner`. If they just
+  confirm, use **`gkurt`** (the author's — the one this skill shipped from).
+  Encourage them to fork it and make their own for next time (see the source
+  repo's README).
+
+### 2. Read the manifest from the source
+
+**If the source is a local directory**, just read the files directly — no fetch,
+no clone. This is the preferred case; prefer a local clone whenever one exists.
+
+**If the source is a GitHub repo**, get its `IMPRINT.md` in a way that works for
+private repos too:
 
 ```bash
-gh repo view <handle>/imprint --json name 2>/dev/null
-```
-
-- **If `<handle>/imprint` exists** → use it. Tell the user you found their imprint.
-- **If it does not exist** → ask:
-
-  > No `<handle>/imprint` repo found. Imprint from someone else's? (default: `gkurt`)
-
-  Accept any `owner/imprint` or bare `owner`. If they just confirm, use **`gkurt`**
-  (the author's — the one this skill shipped from). Encourage them to fork it and
-  make their own for next time (see the source repo's README).
-
-### 2. Fetch the manifest
-
-Prefer read-only fetching over a full clone. Read the chosen repo's `IMPRINT.md`:
-
-```bash
-# Raw file (no clone):
+# gh API — authenticated, so it works for private AND public repos:
 gh api repos/<owner>/imprint/contents/IMPRINT.md --jq .content | base64 -d
 ```
 
-If you need many files, clone shallowly into a temp dir instead:
+If you'll need many files, clone shallowly (SSH or gh handles private auth;
+`git clone https://…` and `raw.githubusercontent.com` do NOT work for private
+repos without a token — don't rely on them):
 
 ```bash
-git clone --depth 1 https://github.com/<owner>/imprint <tmp>/imprint
+gh repo clone <owner>/imprint <tmp>/imprint -- --depth 1
 ```
 
-Do NOT assume the imprint content is bundled with this skill — always fetch it
-live so you get the owner's current preferences.
+If `gh` is unavailable/unauthenticated and the repo is public, fall back to
+`https://raw.githubusercontent.com/<owner>/imprint/main/IMPRINT.md` or an HTTPS
+clone. If it's private and `gh` can't reach it, stop and ask the user to either
+`gh auth login`, clone it locally, or point you at a local path — do not guess.
+
+Do NOT assume the imprint content is bundled with this skill — always read it
+from the resolved source so you get the owner's current preferences.
 
 ### 3. Follow IMPRINT.md
 
@@ -93,9 +114,11 @@ lib?), then apply each section.
 
 ## Notes
 
-- This skill is content-free by design — it points at a live `<username>/imprint`
-  repo so preferences stay current and anyone can bring their own.
-- If the user says a specific owner ("imprint from `torvalds`"), skip step 1's
-  ownership check and go straight to that repo.
-- If `gh` isn't available or authenticated, fall back to raw HTTPS
-  (`https://raw.githubusercontent.com/<owner>/imprint/main/IMPRINT.md`) or a clone.
+- This skill is content-free by design — it reads a live imprint source (local
+  dir or GitHub repo) so preferences stay current and anyone can bring their own.
+- An imprint source can be **local, a private repo, or a public repo.** Prefer a
+  local clone when one exists; use `gh` (not raw HTTPS) for private repos.
+- If the user names a specific source ("imprint from `torvalds`", or a path),
+  skip the detection and use it directly.
+- Never fabricate imprint content or fall back to a hardcoded stack if you can't
+  reach the source — surface the access problem and ask how to proceed.
