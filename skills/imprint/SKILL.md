@@ -42,7 +42,17 @@ Otherwise, resolve the user's own imprint, checking cheapest-first:
    `gh` sees **private** repos the user can access, so this works either way.
 
 - **If a local clone or `<handle>/imprint` is found** → use it. Tell the user
-  which source (and whether it's local / private / public).
+  which source (and whether it's local / private / public). For a **local clone
+  with a git remote**, check it isn't stale before trusting it: `git -C <dir>
+  fetch` then compare with `git -C <dir> status -sb` / `git -C <dir> rev-list
+  --count HEAD..@{u}`. If it's behind its upstream (or has uncommitted local
+  edits, or you can't determine freshness — no remote, offline), **ask**:
+
+  > Your local imprint at `<dir>` is N commits behind origin (or: has local
+  > changes / can't verify it's current). Update it, use it as-is, or fetch from
+  > GitHub instead?
+
+  Only skip the prompt when the clone is verifiably up to date with its upstream.
 - **If none is found** → ask:
 
   > No imprint found for you (local or on GitHub). Imprint from someone else's, or
@@ -55,8 +65,12 @@ Otherwise, resolve the user's own imprint, checking cheapest-first:
 
 ### 2. Read the manifest from the source
 
-**If the source is a local directory**, just read the files directly — no fetch,
-no clone. This is the preferred case; prefer a local clone whenever one exists.
+**If the source is a local directory**, read the files directly — no clone
+needed. Prefer a local clone whenever one exists, but only after the freshness
+check in step 1: a local clone is the fast path, not an excuse to apply stale
+preferences. If the user chose "update," pull first (`git -C <dir> pull --ff-only`)
+and then read; if they chose "fetch from GitHub instead," treat it as a remote
+source below.
 
 **If the source is a GitHub repo**, get its `IMPRINT.md` in a way that works for
 private repos too:
@@ -117,7 +131,8 @@ lib?), then apply each section.
 - This skill is content-free by design — it reads a live imprint source (local
   dir or GitHub repo) so preferences stay current and anyone can bring their own.
 - An imprint source can be **local, a private repo, or a public repo.** Prefer a
-  local clone when one exists; use `gh` (not raw HTTPS) for private repos.
+  local clone when one exists — but verify it isn't stale first and ask if it is;
+  use `gh` (not raw HTTPS) for private repos.
 - If the user names a specific source ("imprint from `torvalds`", or a path),
   skip the detection and use it directly.
 - Never fabricate imprint content or fall back to a hardcoded stack if you can't
