@@ -52,9 +52,11 @@
     box-shadow: 0 12px 34px rgba(124,131,255,0.45), inset 0 1px 0 rgba(255,255,255,0.35);
     position: relative;
   }
-  .stamp span { font-family: var(--mono); font-size: 34px; font-weight: 700; color: #0b0b12; margin-top: -2px; }
+  .stamp .fp { width: 38px; height: 47px; color: #0c0d15; }
+  .fp path { fill: none; stroke: currentColor; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
   .wordmark { font-size: 46px; font-weight: 680; letter-spacing: -0.03em; line-height: 1; }
-  .wordmark b { color: #fff; font-weight: 700; }
+  .wordmark .im { color: var(--accent); font-weight: 700; }
+  .wordmark .pr { color: #fff; font-weight: 700; }
   .tagline { margin-top: 9px; font-size: 19px; color: var(--dim); letter-spacing: 0.01em; }
   .repo { font-family: var(--mono); font-size: 17px; color: var(--dim); padding-top: 8px; }
   .repo b { color: var(--accent); font-weight: 500; }
@@ -119,9 +121,9 @@
     <div class="frame">
       <div class="top">
         <div class="brand">
-          <div class="stamp"><span>❯</span></div>
+          <div class="stamp"><svg class="fp" viewBox="0 0 96 120"><path d="M34,108 C18,102 14,72 16,52 C18,28 32,16 48,16 C64,16 78,28 80,52 C82,72 78,102 62,108"/><path d="M37,100 C26,95 24,72 26,54 C28,36 38,26 48,26 C58,26 68,36 70,54 C72,72 70,95 59,100"/><path d="M40,92 C33,88 32,70 34,57 C36,44 42,38 48,38 C54,38 60,44 62,57 C64,70 63,88 56,92"/><path d="M44,54 C44,47 53,47 53,55 C53,61 46,61 46,55"/><path d="M20,78 C22,74 26,73 29,75"/><path d="M76,64 C74,60 70,59 67,61"/></svg></div>
           <div>
-            <div class="wordmark"><b>imprint</b></div>
+            <div class="wordmark"><span class="im">im</span><span class="pr">print</span></div>
             <div class="tagline">Stamp your setup onto any repo — in one command.</div>
           </div>
         </div>
