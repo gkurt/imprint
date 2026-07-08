@@ -1,0 +1,7 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        // Sub-project tsconfigs should extend the base tsconfig and override specific options as needed.
+        // Prefer to keep the base tsconfig as the source of truth for shared settings and keep sub-project tsconfigs as thin as possible.
+    }
+}

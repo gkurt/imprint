@@ -80,9 +80,7 @@ Update `IMPRINT.md`'s file mappings if they reorganize folders.
 Replace **every nominal reference** to the source author with the caller's. Grep
 the whole fork for the original handle, name, email, and domain and fix each hit:
 
-- Identity strings: GitHub handle, display name, emails, personal URL/domain
-  (for `gkurt/imprint` that's `gkurt`, `KurtGokhan`, `Gökhan Kurt`, `Gokhan Kurt`,
-  `gokhan@gkurt.com`, `krtgkn@gmail.com`, `gkurt.com`).
+- Identity strings: GitHub handle, display name, emails, personal URL/domain.
 - `LICENSE` copyright holder (keep MIT or switch to their license of choice).
 - README identity and any `homepage`/`repository`/`bugs` URLs.
 - `config/package.template.json` author block and URLs.

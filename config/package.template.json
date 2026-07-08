@@ -3,19 +3,19 @@
   "version": "0.1.0",
   "type": "module",
   "description": "PACKAGE_DESCRIPTION",
-  "homepage": "https://github.com/gkurt/PACKAGE_NAME",
+  "homepage": "https://github.com/username/PACKAGE_NAME",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gkurt/PACKAGE_NAME.git"
+    "url": "git+https://github.com/username/PACKAGE_NAME.git"
   },
   "bugs": {
-    "url": "https://github.com/gkurt/PACKAGE_NAME/issues"
+    "url": "https://github.com/username/PACKAGE_NAME/issues"
   },
   "license": "MIT",
   "author": {
-    "name": "Gokhan Kurt",
-    "email": "gokhan@gkurt.com",
-    "url": "https://gkurt.com"
+    "name": "User Name",
+    "email": "user@domain.com",
+    "url": "https://username.com"
   },
   "imports": {
     "#*": "./*"

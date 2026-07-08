@@ -14,7 +14,7 @@ is the starting point unless there's a reason to deviate.
 | Testing | **`bun test`** | Config in `bunfig.toml` (`onlyFailures = true`). Vitest only for non-Bun libs. |
 | E2E | **Playwright** | Its own `e2e/` workspace + a CI job. |
 | Build | match the artifact | `tsdown` or `bun build --compile` for Bun libs/CLIs; `tsup` for dual CJS/ESM npm libs; Vite/esbuild for extensions. Typecheck (`noEmit`) is separate from build. |
-| Release | **Tegami** | My successor to Changesets. npm trusted publishing via OIDC. |
+| Release | **Tegami** | Successor to Changesets. npm trusted publishing via OIDC. |
 | Git hooks | **husky** + **lint-staged** | `biome check --write` on staged files. |
 
 ## Monorepo layout
@@ -52,9 +52,8 @@ Keep script names consistent across repos: `start`, `dev`, `typecheck` (`tsgo`),
 ## Libraries by need
 
 - **Schema / validation**: **Zod v4** — always `import * as z from 'zod/v4'` (Biome-enforced). Use `@standard-schema/spec` for schema-agnostic public APIs.
-- **CLI**: [**padrone**](https://github.com/gkurt/padrone) (my framework). **Ink** for rich TUI, **enquirer** for prompts.
 - **Web / sites**: **Astro** (v6) + MDX/RSS/sitemap, deployed to GitHub Pages. **React 19** (`react-jsx` runtime).
-- **Styling / UI**: **Tailwind CSS v4** (`@tailwindcss/vite`), **shadcn**, `clsx` + `tailwind-merge`, `class-variance-authority` / `tailwind-variants`, `tw-animate-css`. **`@base-ui/react`** for primitives. Icons via `@iconify-json/*` or `lucide-react`. Fonts via `@fontsource-variable/geist`.
+- **Styling / UI**: **Tailwind CSS v4** (`@tailwindcss/vite`), **shadcn**, `clsx` + `tailwind-merge`, `class-variance-authority` / `tailwind-variants`, `tw-animate-css`. **`@base-ui/react`** for primitives. Icons via `react-icons` or `lucide-react`. Fonts via `@fontsource-variable/geist`.
 - **Utilities**: **`es-toolkit`** (not lodash), `immer`.
 - **AI**: Vercel **`ai`** SDK.
 - **Desktop / native**: **Tauri 2** (Rust); **Zig** for native bits.

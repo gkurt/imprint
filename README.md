@@ -65,4 +65,4 @@ Or do it by hand — what to change after forking:
 
 ## License
 
-[MIT](LICENSE) © Gökhan Kurt
+[MIT](LICENSE) © Gokhan Kurt

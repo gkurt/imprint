@@ -122,7 +122,7 @@ lib?), then apply each section.
   devDependencies into the existing file rather than replacing it. For configs
   that already exist and differ meaningfully, show the diff and confirm before
   replacing.
-- **Fill placeholders** (`PACKAGE_NAME`, `PACKAGE_DESCRIPTION`, the `gkurt` owner
+- **Fill placeholders** (`PACKAGE_NAME`, `PACKAGE_DESCRIPTION`, the `username` owner
   in URLs/author blocks) with the target repo's real values and the current user's
   identity — not the imprint owner's, unless they're the same person.
 - Rename dotless template files on copy as `IMPRINT.md` specifies.

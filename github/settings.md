@@ -5,13 +5,13 @@ Apply these after creating the repo. Most can be set with `gh` (shown inline).
 ## Basics
 
 - **Default branch**: `main`.
-- **License**: MIT, copyright "Gökhan Kurt" (see the repo root `LICENSE`).
-- **Description + homepage**: set the one-line description and `https://gkurt.com/<project>/` if there's a docs site.
+- **License**: MIT, copyright "User Name" (see the repo root `LICENSE`).
+- **Description + homepage**: set the one-line description and `https://username.com/<project>/` if there's a docs site.
 - **Topics**: add relevant topics (`bun`, `typescript`, `cli`, etc.).
 
 ```bash
 gh repo edit --default-branch main \
-  --description "..." --homepage "https://gkurt.com/<project>/" \
+  --description "..." --homepage "https://username.com/<project>/" \
   --add-topic bun --add-topic typescript
 ```
 
