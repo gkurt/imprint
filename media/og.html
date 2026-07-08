@@ -87,8 +87,8 @@
     font-family: var(--mono);
     font-size: 18px;
     line-height: 1.6;
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 66%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 0%, #000 66%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 54%, transparent 90%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 54%, transparent 90%);
   }
   .line { white-space: pre; display: flex; align-items: baseline; }
   .path { color: var(--dimmer); }
@@ -100,7 +100,11 @@
   .run { color: var(--accent); }
   .gap { height: 8px; }
 
-  .name { color: var(--ink); display: inline-block; min-width: 300px; }
+  /* scaffolded files are secondary to the commands — keep them recessive */
+  .scaffold .ok { color: #3f8f68; }
+  .scaffold .name { color: #767e90; }
+  .scaffold .ann { color: #565d6d; }
+  .name { display: inline-block; min-width: 300px; }
   .ann { color: var(--dim); }
 
   .cursor {
@@ -136,15 +140,15 @@
           <div class="line"><span class="prompt">$ </span><span class="cmd">claude </span><span class="run">/imprint</span><span class="cursor"></span></div>
           <div class="line"><span class="run">  ↳ </span><span class="muted">imprinting your conventions…</span></div>
           <div class="gap"></div>
-          <div class="line"><span class="ok">  ✓ </span><span class="name">tsconfig.json</span><span class="ann">strict · ESM · TypeScript 7</span></div>
-          <div class="line"><span class="ok">  ✓ </span><span class="name">biome.jsonc</span><span class="ann">2-space · single quotes · 140</span></div>
-          <div class="line"><span class="ok">  ✓ </span><span class="name">bunfig.toml</span><span class="ann">bun · isolated linker</span></div>
-          <div class="line"><span class="ok">  ✓ </span><span class="name">AGENTS.md · CLAUDE.md</span><span class="ann">house rules for agents</span></div>
-          <div class="line"><span class="ok">  ✓ </span><span class="name">.github/workflows/</span><span class="ann">ci · release · Tegami · OIDC</span></div>
-          <div class="line"><span class="ok">  ✓ </span><span class="name">.vscode/</span><span class="ann">biome · format on save</span></div>
-          <div class="line"><span class="ok">  ✓ </span><span class="name">package.json</span><span class="ann">husky · lint-staged · scripts</span></div>
-          <div class="line"><span class="ok">  ✓ </span><span class="name">.editorconfig · .gitignore</span><span class="ann">the boring essentials</span></div>
-          <div class="line"><span class="muted">  … and the rest of your house style</span></div>
+          <div class="line scaffold"><span class="ok">  ✓ </span><span class="name">tsconfig.json</span><span class="ann">strict · ESM · TypeScript 7</span></div>
+          <div class="line scaffold"><span class="ok">  ✓ </span><span class="name">biome.jsonc</span><span class="ann">2-space · single quotes · 140</span></div>
+          <div class="line scaffold"><span class="ok">  ✓ </span><span class="name">bunfig.toml</span><span class="ann">bun · isolated linker</span></div>
+          <div class="line scaffold"><span class="ok">  ✓ </span><span class="name">AGENTS.md · CLAUDE.md</span><span class="ann">house rules for agents</span></div>
+          <div class="line scaffold"><span class="ok">  ✓ </span><span class="name">.github/workflows/</span><span class="ann">ci · release · OIDC</span></div>
+          <div class="line scaffold"><span class="ok">  ✓ </span><span class="name">.vscode/</span><span class="ann">biome · format on save</span></div>
+          <div class="line scaffold"><span class="ok">  ✓ </span><span class="name">package.json</span><span class="ann">husky · lint-staged · scripts</span></div>
+          <div class="line scaffold"><span class="ok">  ✓ </span><span class="name">.editorconfig · .gitignore</span><span class="ann">the boring essentials</span></div>
+          <div class="line scaffold"><span class="muted">  … and the rest of your house style</span></div>
         </div>
       </div>
     </div>
