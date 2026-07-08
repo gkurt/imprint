@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  :root {
+    --bg: #0a0b10;
+    --ink: #e9ebf2;
+    --dim: #6b7488;
+    --dimmer: #464e60;
+    --accent: #a78bfa;      /* violet — the "ink" */
+    --accent-2: #7c83ff;
+    --green: #56d192;
+    --term: #0f1219;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  .card {
+    position: relative;
+    width: 1280px;
+    height: 640px;
+    overflow: hidden;
+    background:
+      radial-gradient(1100px 620px at 22% -12%, rgba(124,131,255,0.18), transparent 60%),
+      radial-gradient(900px 700px at 108% 120%, rgba(167,139,250,0.14), transparent 55%),
+      var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+  }
+  /* faint dotted texture */
+  .card::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 26px 26px;
+    -webkit-mask-image: radial-gradient(1000px 700px at 30% 0%, #000, transparent 75%);
+            mask-image: radial-gradient(1000px 700px at 30% 0%, #000, transparent 75%);
+    pointer-events: none;
+  }
+
+  .frame { position: absolute; inset: 0; padding: 54px 60px; display: flex; flex-direction: column; }
+
+  /* ---- header / brand ---- */
+  .top { display: flex; align-items: flex-start; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 18px; }
+  .stamp {
+    width: 62px; height: 62px; border-radius: 16px;
+    background: linear-gradient(150deg, var(--accent-2), var(--accent));
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 12px 34px rgba(124,131,255,0.45), inset 0 1px 0 rgba(255,255,255,0.35);
+    position: relative;
+  }
+  .stamp span { font-family: var(--mono); font-size: 34px; font-weight: 700; color: #0b0b12; margin-top: -2px; }
+  .wordmark { font-size: 46px; font-weight: 680; letter-spacing: -0.03em; line-height: 1; }
+  .wordmark b { color: #fff; font-weight: 700; }
+  .tagline { margin-top: 9px; font-size: 19px; color: var(--dim); letter-spacing: 0.01em; }
+  .repo { font-family: var(--mono); font-size: 17px; color: var(--dim); padding-top: 8px; }
+  .repo b { color: var(--accent); font-weight: 500; }
+
+  /* ---- terminal ---- */
+  .term {
+    margin-top: 26px;
+    flex: 1;
+    background: linear-gradient(180deg, #12151d, var(--term));
+    border: 1px solid rgba(255,255,255,0.08);
+    border-bottom: none;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -1px 0 rgba(255,255,255,0.05) inset, 0 40px 90px -30px rgba(0,0,0,0.7);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .bar {
+    height: 46px; flex: none;
+    display: flex; align-items: center; gap: 9px;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.015);
+  }
+  .dot { width: 13px; height: 13px; border-radius: 50%; }
+  .dot.r { background: #ff5f57; } .dot.y { background: #febc2e; } .dot.g { background: #28c840; }
+  .bar .title { flex: 1; text-align: center; font-family: var(--mono); font-size: 15px; color: var(--dimmer); letter-spacing: 0.02em; margin-left: -60px; }
+
+  .body {
+    padding: 20px 34px 64px;
+    font-family: var(--mono);
+    font-size: 18px;
+    line-height: 1.6;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 66%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 66%, transparent 100%);
+  }
+  .line { white-space: pre; display: flex; align-items: baseline; }
+  .path { color: var(--dimmer); }
+  .prompt { color: var(--accent); }
+  .cmd { color: var(--ink); }
+  .flag { color: var(--dim); }
+  .ok { color: var(--green); }
+  .muted { color: var(--dim); }
+  .run { color: var(--accent); }
+  .gap { height: 8px; }
+
+  .name { color: var(--ink); display: inline-block; min-width: 300px; }
+  .ann { color: var(--dim); }
+
+  .cursor {
+    display: inline-block; width: 11px; height: 22px;
+    background: var(--accent); margin-left: 6px; transform: translateY(3px);
+    border-radius: 2px; box-shadow: 0 0 12px rgba(167,139,250,0.8);
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="frame">
+      <div class="top">
+        <div class="brand">
+          <div class="stamp"><span>❯</span></div>
+          <div>
+            <div class="wordmark"><b>imprint</b></div>
+            <div class="tagline">Stamp your setup onto any repo — in one command.</div>
+          </div>
+        </div>
+        <div class="repo">github.com/<b>gkurt/imprint</b></div>
+      </div>
+
+      <div class="term">
+        <div class="bar">
+          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+          <div class="title">zsh — ~/my-new-app</div>
+        </div>
+        <div class="body">
+          <div class="line"><span class="prompt">$ </span><span class="cmd">npx skills add gkurt/imprint</span></div>
+          <div class="line"><span class="ok">  ✓ </span><span class="muted">added skill · imprint</span></div>
+          <div class="gap"></div>
+          <div class="line"><span class="prompt">$ </span><span class="cmd">claude </span><span class="run">/imprint</span><span class="cursor"></span></div>
+          <div class="line"><span class="run">  ↳ </span><span class="muted">imprinting your conventions…</span></div>
+          <div class="gap"></div>
+          <div class="line"><span class="ok">  ✓ </span><span class="name">tsconfig.json</span><span class="ann">strict · ESM · TypeScript 7</span></div>
+          <div class="line"><span class="ok">  ✓ </span><span class="name">biome.jsonc</span><span class="ann">2-space · single quotes · 140</span></div>
+          <div class="line"><span class="ok">  ✓ </span><span class="name">bunfig.toml</span><span class="ann">bun · isolated linker</span></div>
+          <div class="line"><span class="ok">  ✓ </span><span class="name">AGENTS.md · CLAUDE.md</span><span class="ann">house rules for agents</span></div>
+          <div class="line"><span class="ok">  ✓ </span><span class="name">.github/workflows/</span><span class="ann">ci · release · Tegami · OIDC</span></div>
+          <div class="line"><span class="ok">  ✓ </span><span class="name">.vscode/</span><span class="ann">biome · format on save</span></div>
+          <div class="line"><span class="ok">  ✓ </span><span class="name">package.json</span><span class="ann">husky · lint-staged · scripts</span></div>
+          <div class="line"><span class="ok">  ✓ </span><span class="name">.editorconfig · .gitignore</span><span class="ann">the boring essentials</span></div>
+          <div class="line"><span class="muted">  … and the rest of your house style</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

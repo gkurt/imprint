@@ -1,5 +1,9 @@
 # imprint
 
+<p align="center">
+  <img src="media/og.png" alt="imprint — stamp your setup onto any repo in one command" width="820" />
+</p>
+
 > ### 🤖 AI agents: read [`IMPRINT.md`](IMPRINT.md) first.
 > It's the manifest — it tells you how to set up ("imprint") a repository with
 > these preferences and where each one lives.
@@ -46,7 +50,7 @@ The fast path — let the skill do it:
 
 ```bash
 # after `npx skills add gkurt/imprint`
-imprint fork
+claude /imprint fork
 ```
 
 `fork` mode surveys your existing repos to learn your conventions, forks this
