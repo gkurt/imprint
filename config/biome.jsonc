@@ -20,8 +20,8 @@
       "!**/.docusaurus",
       "!**/*.gen.ts",
       "!**/mockServiceWorker.js"
-      // Any generated files should be ignored, 
-      // but if you have a specific generated file that you want to include, 
+      // Any generated files should be ignored,
+      // but if you have a specific generated file that you want to include,
       // you can add an include rule for it here.
     ]
   },
