@@ -15,16 +15,25 @@ gh repo edit --default-branch main \
   --add-topic bun --add-topic typescript
 ```
 
+## Features
+
+- **Disable Projects** — unused; keep the repo surface minimal.
+
+```bash
+gh repo edit --enable-projects=false
+```
+
 ## Merge settings
 
 - **Allow squash merging** — default. Disable merge commits and rebase merging.
 - **Auto-delete head branches** after merge.
+- **Always suggest updating pull request branches** — surfaces the "Update branch" button so PRs merge against a fresh `main`.
 - Default squash commit message = PR title + description.
 
 ```bash
 gh repo edit \
   --enable-squash-merge --enable-merge-commit=false --enable-rebase-merge=false \
-  --delete-branch-on-merge
+  --delete-branch-on-merge --allow-update-branch
 ```
 
 ## Branch protection for `main`
