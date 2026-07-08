@@ -39,6 +39,7 @@ agent use.
 
 - Prefer colocation.
 - Use TypeScript with strict typing. Avoid `any` unless absolutely necessary.
+- When importing internal modules, use absolute imports starting with `#src/`. Also include file extensions.
 - Always use top-level `import type` for type imports. Never use inline
   `import('./module.ts').Type` syntax in type annotations.
 - Avoid verbose code comments; write self-explanatory code. Comments are acceptable for:
@@ -52,6 +53,13 @@ agent use.
 - If a file gets too long (e.g. >600 lines), refactor into smaller modules.
 - Check for existing utilities/hooks/components before creating new ones. Avoid duplication.
 - Remove dead and commented-out code; don't preserve old APIs unless asked.
+- When moving or relocating code (functions, components, utilities), don't leave a re-export behind for backwards compatibility. Update every importer to point at the new location and delete the old definition, so there is a single source of truth.
+<!-- For React Projects -->
+- Variables and regular functions shouldn't be prefixed with `use`. The `use` prefix should be reserved for React hooks.
+- Don't use `forwardRef`. React 19 supports passing refs to function components directly, so `forwardRef` is no longer necessary and adds unnecessary complexity.
+- Avoid `useEffect` unless absolutely necessary; prefer custom hooks.
+  - If you decided to use `useEffect`, read this first, and reevaluate your decision: https://react.dev/learn/you-might-not-need-an-effect
+  - Always put a comment explaining what the effect does.
 
 ## Documentation
 

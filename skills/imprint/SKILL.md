@@ -1,7 +1,8 @@
 ---
 name: imprint
-description: Set up a repository with a person's standing preferences — configs, lint/format, tsconfig, CI, GitHub settings, AGENTS.md, IDE settings. Use when the user wants to "imprint" a repo, scaffold a new project to their conventions, apply their house style, or bootstrap tooling for a fresh or existing repo. Looks for a `<username>/imprint` repo and applies its IMPRINT.md; defaults to gkurt's if the user has none. Pass `fork` to instead create the caller's own imprint repo from this one.
+description: Set up a repository with a person's standing preferences — configs, lint/format, tsconfig, CI, GitHub settings, AGENTS.md, IDE settings. Use when the user wants to "imprint" a repo, scaffold a new project to their conventions, apply their house style, or bootstrap tooling for a fresh or existing repo. Looks for a `<username>/imprint` repo and applies its IMPRINT.md. Pass `fork` to instead create the caller's own imprint repo from this one.
 user-invocable: true
+disable-model-invocation: true
 argument-hint: "[fork]"
 license: MIT
 metadata:
