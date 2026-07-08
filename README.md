@@ -38,11 +38,23 @@ Then, in any repo, ask your agent to **imprint** it. The skill will:
 ## Make it yours
 
 You're welcome to use mine as-is — but the point is that these are *personal*
-preferences, and yours will differ. **Fork this repo, rename the templates to
-your taste, and push it as `<your-username>/imprint`.** Once it exists, the skill
-finds it automatically and imprints *your* conventions instead of mine.
+preferences, and yours will differ. **Fork this repo and push it as
+`<your-username>/imprint`.** Once it exists, the skill finds it automatically and
+imprints *your* conventions instead of mine.
 
-What to change after forking:
+The fast path — let the skill do it:
+
+```bash
+# after `npx skills add gkurt/imprint`
+imprint fork
+```
+
+`fork` mode surveys your existing repos to learn your conventions, forks this
+repo into `<your-username>/imprint`, repopulates the templates with your
+preferences, and scrubs my identity out of it. See
+[`skills/imprint/fork.md`](skills/imprint/fork.md).
+
+Or do it by hand — what to change after forking:
 
 - Swap the configs in `config/` for your own (or tweak mine).
 - Rewrite `stack/README.md` with your stack and go-to libraries.

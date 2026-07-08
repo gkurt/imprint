@@ -1,7 +1,8 @@
 ---
 name: imprint
-description: Set up a repository with a person's standing preferences — configs, lint/format, tsconfig, CI, GitHub settings, AGENTS.md, IDE settings. Use when the user wants to "imprint" a repo, scaffold a new project to their conventions, apply their house style, or bootstrap tooling for a fresh or existing repo. Looks for a `<username>/imprint` repo and applies its IMPRINT.md; defaults to gkurt's if the user has none.
+description: Set up a repository with a person's standing preferences — configs, lint/format, tsconfig, CI, GitHub settings, AGENTS.md, IDE settings. Use when the user wants to "imprint" a repo, scaffold a new project to their conventions, apply their house style, or bootstrap tooling for a fresh or existing repo. Looks for a `<username>/imprint` repo and applies its IMPRINT.md; defaults to gkurt's if the user has none. Pass `fork` to instead create the caller's own imprint repo from this one.
 user-invocable: true
+argument-hint: "[fork]"
 license: MIT
 metadata:
   - type: repo
@@ -17,6 +18,14 @@ plus template files for configs, CI, IDE settings, and agent instructions.
 
 "To imprint" = read that manifest and apply it to the working repo, adapting to
 what the repo already is rather than blindly overwriting.
+
+## Modes
+
+- **Default (no argument)** — apply an imprint to the current repo. Follow the
+  procedure below.
+- **`fork`** — create the caller's *own* imprint repo from this one, populated
+  with their preferences. Do **not** follow the procedure below; follow
+  [fork.md](fork.md) instead.
 
 ## Procedure
 
