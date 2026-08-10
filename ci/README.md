@@ -1,6 +1,6 @@
 # CI & release workflows
 
-Drop these into `.github/workflows/`. All jobs run on Bun via `oven-sh/setup-bun@v2`, and actions are pinned to current majors (`checkout@v6`, `setup-node@v6`).
+Drop the workflows into `.github/workflows/` and [`tegami.mts`](tegami.mts) into `scripts/`. All jobs run on Bun via `oven-sh/setup-bun@v2`, and actions are pinned to current majors (`checkout@v6`, `setup-node@v6`).
 
 | File | Trigger | Purpose |
 | --- | --- | --- |
@@ -8,10 +8,13 @@ Drop these into `.github/workflows/`. All jobs run on Bun via `oven-sh/setup-bun
 | [`release.yml`](release.yml) | push to `main` | [Tegami](https://tegami.fuma-nama.dev): opens a "Version Packages" PR when changelogs are pending, otherwise publishes. Uses npm trusted publishing (OIDC) — no `NPM_TOKEN`. |
 | [`tegami-pr.yml`](tegami-pr.yml) | PR | Builds a release-preview artifact. Runs untrusted PR code but stays read-only. |
 | [`tegami-pr-comment.yml`](tegami-pr-comment.yml) | `workflow_run` of the above | Posts the preview as a PR comment with write perms, without running PR code. |
+| [`tegami.mts`](tegami.mts) | — | The Tegami config itself. Goes to `scripts/tegami.mts`; fill in `<owner>/<repo>` and `<primary-package>`. |
 
 ## Notes
 
-- **Release tooling is Tegami**, the successor to Changesets. Config lives in `scripts/tegami.mts` (all packages share one version via `groups: { all: { syncBump: true } }`, `npm.client: 'bun'`, `github()` plugin). If you prefer Changesets, `/migrate-from-changesets` goes the other way — but the house default is Tegami.
+- **Release tooling is Tegami**, the successor to Changesets. Config lives in [`scripts/tegami.mts`](tegami.mts) (all packages share one version via `groups: { all: { syncBump: true } }`, `npm.client: 'bun'`, `github()` plugin). If you prefer Changesets, `/migrate-from-changesets` goes the other way — but the house default is Tegami.
+- **Version-PR titles carry the version.** Tegami's default title is a flat "Version Packages"; the `versionPr.create()` hook in `tegami.mts` makes it `chore: release v<version>`, so the merge commit on `main` says which release it was. `create` runs after the draft is applied, so read the bumped version off `this.graph` — don't call `bumpVersion()` there or you bump twice.
+- Repos that ship an **app rather than npm packages** (every workspace package `private: true`) also want `github({ release: false })`, and let a tag-triggered `release.yml` own the git tag and artifacts — Tegami's npm provider refuses to tag/release a private package.
 - **npm trusted publishing**: configure the package on npmjs.com to trust this repo's `release.yml`. The `id-token: write` permission is what enables OIDC; no secret token is stored.
 - The **PR-preview split** (`tegami-pr.yml` + `tegami-pr-comment.yml`) is deliberate: the workflow that runs untrusted PR code has read-only perms; the one with write perms never runs PR code. Keep them paired.
 - For sites, add a `deploy-docs.yml` that builds the Astro docs and deploys to GitHub Pages (`actions/deploy-pages`, `concurrency.group: pages`).

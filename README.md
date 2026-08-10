@@ -21,7 +21,7 @@ repos and re-explaining my house style to every new agent, it all lives here:
 - **[`config/`](config/)** — drop-in configs: `tsconfig.json`, `biome.jsonc`, `bunfig.toml`, `.editorconfig`, `.gitignore`, a `package.json` template, husky hook.
 - **[`ide/`](ide/)** — `.vscode` extensions + settings.
 - **[`agents/`](agents/)** — `AGENTS.md` base rules + the `CLAUDE.md` pointer.
-- **[`ci/`](ci/)** — GitHub Actions: CI + [Tegami](https://tegami.fuma-nama.dev) release & PR-preview workflows.
+- **[`ci/`](ci/)** — GitHub Actions: CI + [Tegami](https://tegami.fuma-nama.dev) release & PR-preview workflows, plus the `scripts/tegami.mts` config.
 - **[`github/`](github/)** — GitHub repo settings checklist.
 - **[`skills/imprint/`](skills/imprint/)** — the installable skill that ties it together.
 

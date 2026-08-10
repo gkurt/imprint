@@ -9,7 +9,7 @@ is the starting point unless there's a reason to deviate.
 | --- | --- | --- |
 | Runtime & package manager | **Bun** | `bunfig.toml` with isolated linker. `bun i`, `bun test`, `bun run`. |
 | Language | **TypeScript**, strict, ESM | `"type": "module"`, `nodenext`, `verbatimModuleSyntax`, `.ts` extension imports. |
-| Type checker | **TypeScript 7** (native `tsc`) | TS7 ships the native (Go) compiler as `tsc` — no separate `tsgo` binary. `typecheck` script is `tsc`. |
+| Type checker | **TypeScript 7** (native `tsc`) | TS7 ships the native (Go) compiler as `tsc` — no separate `tsgo` binary. `typecheck` script is `tsc`. In the editor: `TypeScriptTeam.native-preview` + `js/ts.experimental.useTsgo` (see [`ide/`](../ide/)). |
 | Lint + format | **Biome v2** | One tool, replaces ESLint **and** Prettier. Never add Prettier. |
 | Testing | **`bun test`** | Config in `bunfig.toml` (`onlyFailures = true`). Vitest only for non-Bun libs. |
 | E2E | **Playwright** | Its own `e2e/` workspace + a CI job. |

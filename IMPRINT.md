@@ -43,7 +43,9 @@ meaningfully, show the diff and ask before replacing.
 
 5. **CI & release** — [`ci/`](ci/). Copy the workflows into `.github/workflows/`.
    See [`ci/README.md`](ci/README.md). Use `ci.yml` always; add the Tegami
-   `release.yml` + PR-preview pair for publishable packages.
+   `release.yml` + PR-preview pair for publishable packages, plus
+   [`ci/tegami.mts`](ci/tegami.mts) → `scripts/tegami.mts` (fill in the repo slug
+   and the primary package name).
 
 6. **GitHub repo settings** — [`github/settings.md`](github/settings.md). Apply
    branch protection, merge settings, and publishing config (ideally with `gh`).
@@ -60,7 +62,7 @@ meaningfully, show the diff and ask before replacing.
 | [`config/`](config/) | Drop-in config files: tsconfig, Biome, bunfig, editorconfig, gitignore, package.json template, husky hook. |
 | [`ide/`](ide/) | `.vscode` extensions + settings. |
 | [`agents/`](agents/) | `AGENTS.md` base + `CLAUDE.md` pointer. |
-| [`ci/`](ci/) | GitHub Actions: CI + Tegami release/PR-preview workflows. |
+| [`ci/`](ci/) | GitHub Actions: CI + Tegami release/PR-preview workflows, and the `scripts/tegami.mts` config. |
 | [`github/`](github/) | GitHub repo settings checklist. |
 | [`skills/imprint/`](skills/imprint/) | The installable `imprint` skill that drives this. |
 
