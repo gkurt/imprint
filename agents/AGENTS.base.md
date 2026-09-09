@@ -69,7 +69,19 @@ docs pages, README.md, SKILL.md, AGENTS.md, llms.txt. Documentation must not go 
 ## Changelogs
 
 Releases are managed by [Tegami](https://tegami.fuma-nama.dev) (config in
-`scripts/tegami.mts`). When asked to commit with a changelog entry, run
-`bun run tegami` or add a `.tegami/*.md` file directly. Each entry has
-`packages:` frontmatter (package + bump type) and a body with at least one
-heading. Keep entries concise — user-facing changes only, no implementation detail.
+`scripts/tegami.mts`). Every change that ships needs an entry — run
+`bun run tegami`, or write `.tegami/<slug>.md` yourself:
+
+```md
+---
+packages:
+  "<pkg>": patch
+---
+
+### Menu rows light up under the pointer
+```
+
+- The body needs at least one heading. Tegami silently drops an entry without one.
+- One sentence under the heading, often none — the heading is usually the whole entry.
+- Write only what landed. A product change gets the user-facing effect; a refactor
+  gets the new shape or the removed API. Nothing else.
