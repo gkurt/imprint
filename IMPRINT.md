@@ -18,20 +18,21 @@ meaningfully, show the diff and ask before replacing.
 
 1. **Read [`stack/README.md`](stack/README.md) first.** It's the philosophy — the
    runtime, language, and library defaults everything else assumes (Bun +
-   TypeScript + Biome + ESM). Decide the project archetype before copying files.
+   TypeScript + Oxlint/Oxfmt + ESM). Decide the project archetype before copying files.
 
 2. **Config files** — [`config/`](config/). Copy into the repo root:
    | Source | Destination |
    | --- | --- |
    | [`config/tsconfig.json`](config/tsconfig.json) | `tsconfig.json` |
-   | [`config/biome.jsonc`](config/biome.jsonc) | `biome.jsonc` |
+   | [`config/oxlintrc.json`](config/oxlintrc.json) | `.oxlintrc.json` |
+   | [`config/oxfmtrc.json`](config/oxfmtrc.json) | `.oxfmtrc.json` |
    | [`config/bunfig.toml`](config/bunfig.toml) | `bunfig.toml` |
    | [`config/editorconfig`](config/editorconfig) | `.editorconfig` |
    | [`config/gitignore`](config/gitignore) | `.gitignore` |
    | [`config/package.template.json`](config/package.template.json) | `package.json` (fill placeholders; merge into an existing one) |
    | [`config/husky-pre-commit`](config/husky-pre-commit) | `.husky/pre-commit` (then `bunx husky init` / set `chmod +x`) |
 
-   The dotless names (`editorconfig`, `gitignore`, `husky-pre-commit`) are stored
+   The dotless names (`oxlintrc.json`, `oxfmtrc.json`, `editorconfig`, `gitignore`, `husky-pre-commit`) are stored
    that way so they don't take effect inside this repo — **rename on copy**.
 
 3. **IDE settings** — [`ide/`](ide/). Copy `extensions.json` and `settings.json`
@@ -59,7 +60,7 @@ meaningfully, show the diff and ask before replacing.
 | Folder | Contains |
 | --- | --- |
 | [`stack/`](stack/) | Runtime/language/library preferences + per-archetype setup notes. **Read first.** |
-| [`config/`](config/) | Drop-in config files: tsconfig, Biome, bunfig, editorconfig, gitignore, package.json template, husky hook. |
+| [`config/`](config/) | Drop-in config files: tsconfig, Oxlint, Oxfmt, bunfig, editorconfig, gitignore, package.json template, husky hook. |
 | [`ide/`](ide/) | `.vscode` extensions + settings. |
 | [`agents/`](agents/) | `AGENTS.md` base + `CLAUDE.md` pointer. |
 | [`ci/`](ci/) | GitHub Actions: CI + Tegami release/PR-preview workflows, and the `scripts/tegami.mts` config. |
@@ -68,7 +69,7 @@ meaningfully, show the diff and ask before replacing.
 
 ## Principles behind the choices
 
-- **One tool per job**: Biome (not ESLint + Prettier), Bun (not Node + npm + a bundler for scripts).
+- **One toolchain per job**: Oxc — Oxlint + Oxfmt (not ESLint + Prettier), Bun (not Node + npm + a bundler for scripts).
 - **Run source in dev, ship built code**: the `<pkg>@dev` export condition.
 - **Modern but strict**: TypeScript 7 (native `tsc`), ESM-only, `strict` + `noUncheckedIndexedAccess`.
 - **`AGENTS.md` is canonical**; every other assistant file points at it.

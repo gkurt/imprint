@@ -2,8 +2,8 @@
 
 Copy both into the repo's `.vscode/` directory.
 
-- [`extensions.json`](extensions.json) → `.vscode/extensions.json` — recommends Biome + EditorConfig + **TypeScript (Native Preview)** (`TypeScriptTeam.native-preview`), which is the extension that speaks to the TypeScript 7 native language server. Nothing else; Biome replaces ESLint **and** Prettier.
-- [`settings.json`](settings.json) → `.vscode/settings.json` — format-on-save via Biome, organize-imports on save, single-quote preference, and pins the workspace TypeScript version.
+- [`extensions.json`](extensions.json) → `.vscode/extensions.json` — recommends Oxc (`oxc.oxc-vscode`) + EditorConfig + **TypeScript (Native Preview)** (`TypeScriptTeam.native-preview`), which is the extension that speaks to the TypeScript 7 native language server. Nothing else; the Oxc extension runs both Oxlint and Oxfmt, replacing ESLint **and** Prettier.
+- [`settings.json`](settings.json) → `.vscode/settings.json` — format-on-save via Oxfmt (which also sorts imports), Oxlint fixes on save, single-quote preference, and pins the workspace TypeScript version.
 
 ## TypeScript 7 in the editor
 

@@ -1,0 +1,63 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  // `react` is harmless in non-React repos; drop it if you want a leaner rule set.
+  "plugins": ["eslint", "typescript", "unicorn", "oxc", "import", "react"],
+  // Type-aware rules run through `oxlint-tsgolint` (TypeScript 7), using each file's tsconfig.
+  "options": { "typeAware": true },
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "ignorePatterns": ["**/.claude", "**/build", "**/.docusaurus", "**/*.gen.ts", "**/mockServiceWorker.js"],
+  "rules": {
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_", "ignoreRestSiblings": true }],
+    // Also bans inline `import('./x.ts').Type` annotations.
+    "typescript/consistent-type-imports": "error",
+
+    // Type-aware.
+    "typescript/no-floating-promises": "error",
+    "typescript/no-misused-promises": "error",
+    "typescript/await-thenable": "error",
+    "typescript/switch-exhaustiveness-check": "error",
+    "typescript/no-unnecessary-type-assertion": "warn",
+    "typescript/no-deprecated": "warn",
+
+    // Suspicious-category rules that are mostly noise.
+    "no-shadow": "off",
+    "no-underscore-dangle": "off",
+    "unicorn/consistent-function-scoping": "off",
+    "unicorn/no-array-sort": "off",
+    "unicorn/no-array-reverse": "off",
+    "import/no-unassigned-import": "off",
+    "import/no-named-as-default": "off",
+
+    // React: mirrors eslint-plugin-react-hooks v7 `recommended` (Rules of Hooks + React Compiler rules).
+    // The compiler rules (purity, refs, immutability, set-state-in-render, …) come from the correctness category.
+    "react/react-in-jsx-scope": "off",
+    "react/no-children-prop": "off",
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "warn",
+    "react/incompatible-library": "warn",
+    "react/unsupported-syntax": "warn",
+    // Compiler-powered duplicates of `rules-of-hooks` / `exhaustive-deps`.
+    "react/hooks": "off",
+    "react/memo-dependencies": "off",
+    "react/exhaustive-effect-dependencies": "off",
+    // https://react.dev/learn/you-might-not-need-an-effect
+    "react/no-deriving-state-in-effects": "warn",
+    // Fast Refresh only works when a component module exports nothing but components. Drop for libraries.
+    "react/only-export-components": "warn",
+
+    // Keep the Zod version explicit — always `import * as z from 'zod/v4'`.
+    // Drop this rule for projects that don't use Zod.
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          { "name": "zod", "message": "Use `import * as z from 'zod/v4'` to make the version explicit" },
+          { "name": "zod/v3", "message": "Use `import * as z from 'zod/v4'`" }
+        ]
+      }
+    ]
+  }
+}

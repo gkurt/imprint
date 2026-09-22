@@ -30,10 +30,10 @@ agent use.
 ## Key Conventions
 
 - **Runtime**: Bun. **Language**: TypeScript (strict, ESNext, `nodenext` modules).
-- **Formatting**: Biome — 2-space indent, single quotes, 140 char line width, LF.
+- **Formatting**: Oxfmt — 2-space indent, single quotes, 140 char line width, LF.
 - **Imports**: use `.ts` extensions in source imports (`verbatimModuleSyntax` is on).
   Internal modules use the `#*` subpath alias (e.g. `import { env } from '#src/env.ts'`).
-- **Zod**: always `import * as z from 'zod/v4'` — never bare `zod` or `zod/v3`. Enforced by Biome.
+- **Zod**: always `import * as z from 'zod/v4'` — never bare `zod` or `zod/v3`. Enforced by Oxlint.
 
 ## Coding Conventions
 
