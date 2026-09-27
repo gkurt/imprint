@@ -3,6 +3,10 @@
 The defaults I reach for. Not dogma — pick the right tool per project — but this
 is the starting point unless there's a reason to deviate.
 
+**Always use the latest version of every package.** Install with a bare
+`bun add <pkg>` and don't pin or cap versions. If a peer-dependency range lags
+behind the latest release, still take the latest.
+
 ## Core stack
 
 | Concern | Default | Notes |
@@ -53,15 +57,40 @@ Keep script names consistent across repos: `start`, `dev`, `typecheck` (`tsc`),
 
 - **Schema / validation**: **Zod v4** — always `import * as z from 'zod/v4'` (Oxlint bans bare `zod` and `zod/v3`). Use `@standard-schema/spec` for schema-agnostic public APIs.
 - **Web / sites**: **Astro** (v6) + MDX/RSS/sitemap, deployed to GitHub Pages. **React 19** (`react-jsx` runtime).
+- **React Compiler**: always on, via the **Rust port** (`oxc-transform-react`) — not `babel-plugin-react-compiler`. See [React Compiler](#react-compiler) below.
 - **Styling / UI**: **Tailwind CSS v4** (`@tailwindcss/vite`), **shadcn**, `clsx` + `tailwind-merge`, `class-variance-authority` / `tailwind-variants`, `tw-animate-css`. **`@base-ui/react`** for primitives. Icons via `react-icons` or `lucide-react`. Fonts via `@fontsource-variable/geist`.
 - **Utilities**: **`es-toolkit`** (not lodash), `immer`.
 - **AI**: Vercel **`ai`** SDK.
 - **Desktop / native**: **Tauri 2** (Rust); **Zig** for native bits.
 - **Testing libs**: `@testing-library/react` + `happy-dom`; Remotion for video examples.
 
+## React Compiler
+
+Any React project gets the [React Compiler](https://react.dev/learn/react-compiler)
+through its Rust port, [`oxc-transform-react`](https://npmx.dev/package/oxc-transform-react),
+which runs inside the Vite/Oxc pipeline, so there's no Babel pass. Never add
+`babel-plugin-react-compiler`, `@rolldown/plugin-babel`, or `@babel/core` just for
+the compiler.
+
+- **Install** the latest of each: `bun add -d vite @vitejs/plugin-react oxc-transform-react`
+  (Astro: `@astrojs/react` in place of `@vitejs/plugin-react`).
+  `oxc-transform-react` is an optional peer dependency, so it has to be added explicitly.
+- **Vite**: `react({ compiler: true })` in `vite.config.ts`.
+- **Astro**: `react({ compiler: true })` in `astro.config.mjs` `integrations`. It
+  compiles client components and hooks only, not server rendering.
+- **Options**: pass [compiler options](https://react.dev/reference/react-compiler/configuration)
+  in place of `true`, e.g. `compiler: { compilationMode: 'annotation' }` to
+  adopt it gradually in an existing codebase. `logDiagnostics: true` prints
+  recoverable bail-outs.
+- **Lint**: nothing extra. The React Compiler rules are already built into Oxlint
+  ([`config/oxlintrc.json`](../config/oxlintrc.json)).
+
+The integration is still marked experimental. For an existing production app,
+turn it on in a branch and run the e2e suite before merging.
+
 ## Setup instructions per archetype
 
 - **Bun library / CLI monorepo** — the dominant style. Everything above applies. Start from `config/package.template.json`, add `packages/<pkg>` with the dev/prod-condition exports.
 - **Standalone ESM library** — single package, **ESM-only** (`"type": "module"`, `exports` with an `import` condition only, no `main`/CJS). Build `dist` with `tsdown`. Don't dual-publish CJS — consumers on modern Node/Bun don't need it.
 - **VS Code extension** — Vite lib mode or esbuild, `vscode` externalized. ESLint is tolerated here (the one place Oxlint doesn't fully fit).
-- **Astro site** — `extends: astro/tsconfigs/strict`, Tailwind v4, shadcn, deploy to Pages.
+- **Astro site** — `extends: astro/tsconfigs/strict`, Tailwind v4, shadcn, deploy to Pages. React islands get `react({ compiler: true })` (see [React Compiler](#react-compiler)).
