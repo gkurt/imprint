@@ -7,5 +7,5 @@
     "newlinesBetween": false,
     "partitionByNewline": true
   },
-  "ignorePatterns": ["**/.claude", "**/build", "**/.docusaurus", "**/*.gen.ts", "**/mockServiceWorker.js"]
+  "ignorePatterns": ["**/.claude", "**/build", "**/*.gen.ts", "**/mockServiceWorker.js"]
 }

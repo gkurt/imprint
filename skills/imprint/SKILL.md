@@ -30,120 +30,77 @@ what the repo already is rather than blindly overwriting.
 
 ## Procedure
 
-### 1. Pick whose imprint to apply
+### 1. Resolve the imprint source
 
-An imprint source can be **a local directory** or **a GitHub repo (public or
-private)**. If the user named one explicitly ("imprint from `~/dev/imprint`", or
-"from `torvalds`"), use that and skip the detection below.
+A source is a **local directory** containing `IMPRINT.md`, or a **GitHub repo**
+(public or private). If the user named one ("imprint from `~/dev/imprint`", or
+"from `torvalds`"), use it and skip detection. Otherwise check, cheapest first:
 
-Otherwise, resolve the user's own imprint, checking cheapest-first:
+1. **Local clone**: `$IMPRINT_DIR`, a sibling `../imprint`, then `~/imprint`,
+   `~/dev/imprint`, `~/Work/**/imprint`, `~/src/imprint`.
+2. **The user's GitHub handle**: `gh api user --jq .login`, else the owner in
+   `git config --get remote.origin.url`, else `git config user.name` as a hint.
+   Then `gh repo view <handle>/imprint --json name,visibility`. `gh` sees
+   private repos too.
 
-1. **Local clone** — the user may already have it on disk. Check, in order:
-   - `$IMPRINT_DIR` if set.
-   - Common spots near the current repo: a sibling `../imprint`, and dev roots
-     like `~/imprint`, `~/dev/imprint`, `~/Work/**/imprint`, `~/src/imprint`.
-   - A directory is a valid imprint if it contains an `IMPRINT.md`.
-2. **Their GitHub handle**, via `gh api user --jq .login` (if `gh` is
-   authenticated), else parse `git config --get remote.origin.url` for
-   `github.com[:/]<owner>/`, else `git config user.name` as a hint. Then:
-   ```bash
-   gh repo view <handle>/imprint --json name,visibility 2>/dev/null
-   ```
-   `gh` sees **private** repos the user can access, so this works either way.
+Tell the user which source you picked and whether it's local, private, or public.
 
-- **If a local clone or `<handle>/imprint` is found** → use it. Tell the user
-  which source (and whether it's local / private / public). For a **local clone
-  with a git remote**, check it isn't stale before trusting it: `git -C <dir>
-  fetch` then compare with `git -C <dir> status -sb` / `git -C <dir> rev-list
-  --count HEAD..@{u}`. If it's behind its upstream (or has uncommitted local
-  edits, or you can't determine freshness — no remote, offline), **ask**:
+**A local clone must be fresh.** Run `git -C <dir> fetch`, then
+`git -C <dir> rev-list --count HEAD..@{u}`. Use it silently only when it is
+verifiably up to date with its upstream. If it's behind, has uncommitted edits,
+or freshness can't be checked (no remote, offline), ask:
 
-  > Your local imprint at `<dir>` is N commits behind origin (or: has local
-  > changes / can't verify it's current). Update it, use it as-is, or fetch from
-  > GitHub instead?
+> Your local imprint at `<dir>` is N commits behind origin (or: has local
+> changes / can't verify it's current). Update it, use it as-is, or fetch from
+> GitHub instead?
 
-  Only skip the prompt when the clone is verifiably up to date with its upstream.
-- **If none is found** → ask:
+"Update" means `git -C <dir> pull --ff-only`.
 
-  > No imprint found for you (local or on GitHub). Imprint from someone else's, or
-  > a local path? (default: `gkurt`)
+**If nothing is found**, ask:
 
-  Accept a local path, any `owner/imprint`, or a bare `owner`. If they just
-  confirm, use **`gkurt`** (the author's — the one this skill shipped from).
-  Encourage them to fork it and make their own for next time (see the source
-  repo's README).
+> No imprint found for you (local or on GitHub). Imprint from someone else's, or
+> a local path? (default: `gkurt`)
 
-### 2. Read the manifest from the source
+Accept a local path, any `owner/imprint`, or a bare `owner`. If they just
+confirm, use **`gkurt`** (the author's, the one this skill shipped from), and
+suggest they fork it for next time (`/imprint fork`).
 
-**If the source is a local directory**, read the files directly — no clone
-needed. Prefer a local clone whenever one exists, but only after the freshness
-check in step 1: a local clone is the fast path, not an excuse to apply stale
-preferences. If the user chose "update," pull first (`git -C <dir> pull --ff-only`)
-and then read; if they chose "fetch from GitHub instead," treat it as a remote
-source below.
+### 2. Read the source
 
-**If the source is a GitHub repo**, get its `IMPRINT.md` in a way that works for
-private repos too:
+Read a local source directly. For a GitHub source, go through `gh` so private
+repos work:
 
 ```bash
-# gh API — authenticated, so it works for private AND public repos:
 gh api repos/<owner>/imprint/contents/IMPRINT.md --jq .content | base64 -d
+gh repo clone <owner>/imprint <tmp>/imprint -- --depth 1   # when you need many files
 ```
 
-If you'll need many files, clone shallowly (SSH or gh handles private auth;
-`git clone https://…` and `raw.githubusercontent.com` do NOT work for private
-repos without a token — don't rely on them):
+Without `gh`, a public repo can fall back to `raw.githubusercontent.com` or an
+HTTPS clone. For a private repo `gh` can't reach, stop and ask the user to
+`gh auth login`, clone it locally, or give a local path.
 
-```bash
-gh repo clone <owner>/imprint <tmp>/imprint -- --depth 1
-```
+The skill is content-free by design: always read the live source. Never
+fabricate imprint content or fall back to a remembered stack.
 
-If `gh` is unavailable/unauthenticated and the repo is public, fall back to
-`https://raw.githubusercontent.com/<owner>/imprint/main/IMPRINT.md` or an HTTPS
-clone. If it's private and `gh` can't reach it, stop and ask the user to either
-`gh auth login`, clone it locally, or point you at a local path — do not guess.
+### 3. Apply IMPRINT.md, adapting rather than clobbering
 
-Do NOT assume the imprint content is bundled with this skill — always read it
-from the resolved source so you get the owner's current preferences.
+`IMPRINT.md` is the source of truth: the order to apply things, the
+source→destination file mapping, and rename rules (`gitignore` → `.gitignore`).
+Read `stack/README.md` first to decide the archetype.
 
-### 3. Follow IMPRINT.md
+- **Detect the target repo first**: language, existing configs, monorepo or not,
+  package manager. Apply only what fits.
+- **Merge, don't overwrite.** Merge `package.json` scripts into the existing
+  file. For an existing config that differs meaningfully, show the diff and
+  confirm before replacing.
+- **Fill placeholders** (`PACKAGE_NAME`, `PACKAGE_DESCRIPTION`, the `username`
+  in URLs and author blocks) with the target repo's values and the current
+  user's identity, not the imprint owner's.
 
-`IMPRINT.md` is the source of truth. It lists the folders (`stack/`, `config/`,
-`ide/`, `agents/`, `ci/`, `github/`) and the order to apply them, including the
-source→destination file mapping and any rename rules (e.g. `gitignore` → `.gitignore`).
+### 4. Verify and hand off
 
-Read `stack/README.md` first to fix the archetype (Bun monorepo? Astro site? npm
-lib?), then apply each section.
-
-### 4. Apply — adapt, don't clobber
-
-- **Detect the target repo's reality first**: language, existing configs, whether
-  it's a monorepo, what package manager it uses. Only apply what fits.
-- **Merge, don't overwrite blindly.** For `package.json`, merge scripts and
-  devDependencies into the existing file rather than replacing it. For configs
-  that already exist and differ meaningfully, show the diff and confirm before
-  replacing.
-- **Fill placeholders** (`PACKAGE_NAME`, `PACKAGE_DESCRIPTION`, the `username` owner
-  in URLs/author blocks) with the target repo's real values and the current user's
-  identity — not the imprint owner's, unless they're the same person.
-- Rename dotless template files on copy as `IMPRINT.md` specifies.
-
-### 5. Verify and hand off
-
-- Install deps (`bun i`, or the repo's manager) and run the aggregate check
-  (`bun run checks`). Fix what lint/format flags.
-- Report a summary: what you copied, what you merged, what you skipped and why.
-- Flag anything that needs the user's hands: npm trusted-publishing setup, branch
-  protection that needs the GitHub UI, secrets.
-
-## Notes
-
-- This skill is content-free by design — it reads a live imprint source (local
-  dir or GitHub repo) so preferences stay current and anyone can bring their own.
-- An imprint source can be **local, a private repo, or a public repo.** Prefer a
-  local clone when one exists — but verify it isn't stale first and ask if it is;
-  use `gh` (not raw HTTPS) for private repos.
-- If the user names a specific source ("imprint from `torvalds`", or a path),
-  skip the detection and use it directly.
-- Never fabricate imprint content or fall back to a hardcoded stack if you can't
-  reach the source — surface the access problem and ask how to proceed.
+- Install deps and run the aggregate check (`bun run checks`). Fix what
+  lint/format flags.
+- Summarize what you copied, merged, and skipped (and why).
+- Flag what needs the user's hands: npm trusted publishing, branch protection
+  that needs the GitHub UI, secrets.

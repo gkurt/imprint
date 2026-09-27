@@ -8,7 +8,7 @@
     "correctness": "error",
     "suspicious": "warn"
   },
-  "ignorePatterns": ["**/.claude", "**/build", "**/.docusaurus", "**/*.gen.ts", "**/mockServiceWorker.js"],
+  "ignorePatterns": ["**/.claude", "**/build", "**/*.gen.ts", "**/mockServiceWorker.js"],
   "rules": {
     "no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_", "ignoreRestSiblings": true }],
     // Also bans inline `import('./x.ts').Type` annotations.

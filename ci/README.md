@@ -1,6 +1,6 @@
 # CI & release workflows
 
-Drop the workflows into `.github/workflows/` and [`tegami.mts`](tegami.mts) into `scripts/`. All jobs run on Bun via `oven-sh/setup-bun@v2`, and actions are pinned to current majors (`checkout@v6`, `setup-node@v6`).
+Drop the workflows into `.github/workflows/` and [`tegami.mts`](tegami.mts) into `scripts/`. All jobs run on Bun via `oven-sh/setup-bun@v2`, and actions use the latest major (`checkout@v7`, `setup-node@v7`, `upload-artifact@v7`, `download-artifact@v8`). Bump them when a new major ships. Only `release.yml` sets up Node, because Tegami publishes through the `npm` CLI for trusted publishing (OIDC).
 
 | File | Trigger | Purpose |
 | --- | --- | --- |

@@ -11,6 +11,7 @@ This file provides guidance to AI agents when working with code in this reposito
 ## Commands
 
 ```bash
+bun dev            # Run in watch mode
 bun run test       # Run all tests
 bun typecheck      # Type check (TypeScript 7, native tsc)
 bun run lint       # Lint
@@ -26,6 +27,10 @@ agent use.
 ## Project Structure
 
 <!-- Annotated, file-by-file map of the important modules. Keep it current. -->
+
+## Architecture
+
+<!-- How the pieces fit together: data flow, key abstractions, and the non-obvious decisions behind them. -->
 
 ## Key Conventions
 

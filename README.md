@@ -16,14 +16,9 @@ apply them for me in one step.
 
 Instead of copy-pasting `tsconfig.json` / `.oxlintrc.json` / CI workflows between
 repos and re-explaining my house style to every new agent, it all lives here:
-
-- **[`stack/`](stack/)** — runtime, language, and library preferences (Bun + TypeScript + Oxlint/Oxfmt + ESM) and per-archetype setup notes.
-- **[`config/`](config/)** — drop-in configs: `tsconfig.json`, `.oxlintrc.json`, `.oxfmtrc.json`, `bunfig.toml`, `.editorconfig`, `.gitignore`, a `package.json` template, husky hook.
-- **[`ide/`](ide/)** — `.vscode` extensions + settings.
-- **[`agents/`](agents/)** — `AGENTS.md` base rules + the `CLAUDE.md` pointer.
-- **[`ci/`](ci/)** — GitHub Actions: CI + [Tegami](https://tegami.fuma-nama.dev) release & PR-preview workflows, plus the `scripts/tegami.mts` config.
-- **[`github/`](github/)** — GitHub repo settings checklist.
-- **[`skills/imprint/`](skills/imprint/)** — the installable skill that ties it together.
+stack preferences, drop-in configs, IDE settings, agent instructions, CI and
+release workflows, and a GitHub settings checklist. See the
+[directory map](IMPRINT.md#directory-map) for what's where.
 
 ## Use it
 

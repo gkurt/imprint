@@ -92,5 +92,6 @@ turn it on in a branch and run the e2e suite before merging.
 
 - **Bun library / CLI monorepo** — the dominant style. Everything above applies. Start from `config/package.template.json`, add `packages/<pkg>` with the dev/prod-condition exports.
 - **Standalone ESM library** — single package, **ESM-only** (`"type": "module"`, `exports` with an `import` condition only, no `main`/CJS). Build `dist` with `tsdown`. Don't dual-publish CJS — consumers on modern Node/Bun don't need it.
+- **Vite + React app** — Vite 8 with `@vitejs/plugin-react` and `compiler: true` (see [React Compiler](#react-compiler)), Tailwind v4 via `@tailwindcss/vite`, shadcn on `@base-ui/react`. In `tsconfig.json` add `"DOM"` and `"DOM.Iterable"` to `lib` and `"vite/client"` to `types`. Scripts: `dev` = `vite`, `build` = `vite build`, `start` = `vite preview`. Component tests use `bun test` with `happy-dom` + `@testing-library/react`; Playwright covers e2e.
 - **VS Code extension** — Vite lib mode or esbuild, `vscode` externalized. ESLint is tolerated here (the one place Oxlint doesn't fully fit).
 - **Astro site** — `extends: astro/tsconfigs/strict`, Tailwind v4, shadcn, deploy to Pages. React islands get `react({ compiler: true })` (see [React Compiler](#react-compiler)).

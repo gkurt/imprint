@@ -30,7 +30,14 @@ meaningfully, show the diff and ask before replacing.
    | [`config/editorconfig`](config/editorconfig) | `.editorconfig` |
    | [`config/gitignore`](config/gitignore) | `.gitignore` |
    | [`config/package.template.json`](config/package.template.json) | `package.json` (fill placeholders; merge into an existing one) |
+   | [`config/tsconfig.project.json`](config/tsconfig.project.json) | `packages/<pkg>/tsconfig.json` in monorepos |
    | [`config/husky-pre-commit`](config/husky-pre-commit) | `.husky/pre-commit` (then `bunx husky init` / set `chmod +x`) |
+
+   Then install the tooling at its latest version (the template carries no versions):
+
+   ```bash
+   bun add -d @types/bun typescript oxlint oxlint-tsgolint oxfmt husky lint-staged
+   ```
 
    The dotless names (`oxlintrc.json`, `oxfmtrc.json`, `editorconfig`, `gitignore`, `husky-pre-commit`) are stored
    that way so they don't take effect inside this repo — **rename on copy**.
