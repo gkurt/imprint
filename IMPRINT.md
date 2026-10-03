@@ -53,7 +53,8 @@ meaningfully, show the diff and ask before replacing.
    See [`ci/README.md`](ci/README.md). Use `ci.yml` always; add the Tegami
    `release.yml` + PR-preview pair for publishable packages, plus
    [`ci/tegami.mts`](ci/tegami.mts) → `scripts/tegami.mts` (fill in the repo slug
-   and the primary package name).
+   and the primary package name) and the
+   [`changelog` skill](agents/skills/changelog/) → `.claude/skills/changelog/`.
 
 6. **GitHub repo settings** — [`github/settings.md`](github/settings.md). Apply
    branch protection, merge settings, and publishing config (ideally with `gh`).
@@ -69,7 +70,7 @@ meaningfully, show the diff and ask before replacing.
 | [`stack/`](stack/) | Runtime/language/library preferences + per-archetype setup notes. **Read first.** |
 | [`config/`](config/) | Drop-in config files: tsconfig, Oxlint, Oxfmt, bunfig, editorconfig, gitignore, package.json template, husky hook. |
 | [`ide/`](ide/) | `.vscode` extensions + settings. |
-| [`agents/`](agents/) | `AGENTS.md` base + `CLAUDE.md` pointer. |
+| [`agents/`](agents/) | `AGENTS.md` base, `CLAUDE.md` pointer, and the `changelog` skill for Tegami repos. |
 | [`ci/`](ci/) | GitHub Actions: CI + Tegami release/PR-preview workflows, and the `scripts/tegami.mts` config. |
 | [`github/`](github/) | GitHub repo settings checklist. |
 | [`skills/imprint/`](skills/imprint/) | The installable `imprint` skill that drives this. |
@@ -79,5 +80,5 @@ meaningfully, show the diff and ask before replacing.
 - **One toolchain per job**: Oxc — Oxlint + Oxfmt (not ESLint + Prettier), Bun (not Node + npm + a bundler for scripts).
 - **Run source in dev, ship built code**: the `<pkg>@dev` export condition.
 - **Modern but strict**: TypeScript 7 (native `tsc`), ESM-only, `strict` + `noUncheckedIndexedAccess`.
-- **`AGENTS.md` is canonical**; every other assistant file points at it.
+- **`AGENTS.md` is canonical**; every other assistant file points at it. It holds only what every task needs — mechanical rules go in lint/format/tsconfig, task-specific ones in skills.
 - **Consistency across repos**: same script names, same formatter values, same CI shape.

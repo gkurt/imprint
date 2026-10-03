@@ -13,6 +13,15 @@
     "no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_", "ignoreRestSiblings": true }],
     // Also bans inline `import('./x.ts').Type` annotations.
     "typescript/consistent-type-imports": "error",
+    // Escape hatch: `// oxlint-disable-next-line typescript/no-explicit-any -- <why>`.
+    "typescript/no-explicit-any": "error",
+
+    // Shape: braces only for multi-line bodies, early returns over `else`, no nested lonely `if`s, short files.
+    "curly": ["error", "multi-or-nest", "consistent"],
+    "no-else-return": ["error", { "allowElseIf": false }],
+    "no-lonely-if": "error",
+    "unicorn/no-lonely-if": "error",
+    "max-lines": ["warn", { "max": 1000, "skipBlankLines": true, "skipComments": true }],
 
     // Type-aware.
     "typescript/no-floating-promises": "error",
@@ -48,14 +57,21 @@
     // Fast Refresh only works when a component module exports nothing but components. Drop for libraries.
     "react/only-export-components": "warn",
 
-    // Keep the Zod version explicit — always `import * as z from 'zod/v4'`.
-    // Drop this rule for projects that don't use Zod.
+    // Parent-directory imports go through the `#*` subpath alias; `./` siblings are fine.
+    // Keep the Zod version explicit — always `import * as z from 'zod/v4'`. Drop the `zod` paths for projects that don't use Zod.
     "no-restricted-imports": [
       "error",
       {
         "paths": [
           { "name": "zod", "message": "Use `import * as z from 'zod/v4'` to make the version explicit" },
-          { "name": "zod/v3", "message": "Use `import * as z from 'zod/v4'`" }
+          { "name": "zod/v3", "message": "Use `import * as z from 'zod/v4'`" },
+          { "name": "react", "importNames": ["forwardRef"], "message": "React 19 passes `ref` as a regular prop; don't use `forwardRef`" }
+        ],
+        "patterns": [
+          {
+            "regex": "^[.]{2}/",
+            "message": "Import from parent directories through the `#src/` alias, with the extension (e.g. `#src/env.ts`)"
+          }
         ]
       }
     ]
