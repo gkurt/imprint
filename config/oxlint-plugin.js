@@ -73,7 +73,36 @@ const explainedEffect = {
   },
 };
 
+// React 19 renders a context directly as its provider. Only `*Context` names are checked, so
+// component namespaces such as Radix's `<Tooltip.Provider>` are left alone.
+const contextProvider = {
+  meta: {
+    fixable: 'code',
+    messages: { provider: 'Render `<{{context}}>` directly; `<{{context}}.Provider>` is legacy since React 19.' },
+  },
+  /** @param {any} context */
+  create(context) {
+    return {
+      /** @param {any} node */
+      JSXElement(node) {
+        const { name } = node.openingElement;
+        if (name.type !== 'JSXMemberExpression' || name.property.name !== 'Provider') return;
+        if (name.object.type !== 'JSXIdentifier' || !name.object.name.endsWith('Context')) return;
+        const contextName = name.object.name;
+        context.report({
+          node: name,
+          messageId: 'provider',
+          data: { context: contextName },
+          /** @param {any} fixer */
+          fix: (fixer) =>
+            [node.openingElement, node.closingElement].filter(Boolean).map((element) => fixer.replaceText(element.name, contextName)),
+        });
+      },
+    };
+  },
+};
+
 export default {
   meta: { name: 'local' },
-  rules: { 'hook-prefix': hookPrefix, 'explained-effect': explainedEffect },
+  rules: { 'hook-prefix': hookPrefix, 'explained-effect': explainedEffect, 'context-provider': contextProvider },
 };
