@@ -2,6 +2,8 @@
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   // `react` is harmless in non-React repos; drop it if you want a leaner rule set.
   "plugins": ["eslint", "typescript", "unicorn", "oxc", "import", "react"],
+  // House rules no built-in covers; see scripts/oxlint-plugin.js.
+  "jsPlugins": ["./scripts/oxlint-plugin.js"],
   // Type-aware rules run through `oxlint-tsgolint` (TypeScript 7), using each file's tsconfig.
   "options": { "typeAware": true },
   "categories": {
@@ -56,6 +58,9 @@
     "react/no-deriving-state-in-effects": "warn",
     // Fast Refresh only works when a component module exports nothing but components. Drop for libraries.
     "react/only-export-components": "warn",
+    // `use*` names are for hooks only; effects need a comment above or a named function.
+    "local/hook-prefix": "error",
+    "local/explained-effect": "error",
 
     // Parent-directory imports go through the `#*` subpath alias; `./` siblings are fine.
     // Keep the Zod version explicit — always `import * as z from 'zod/v4'`. Drop the `zod` paths for projects that don't use Zod.

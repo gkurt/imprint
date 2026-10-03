@@ -25,6 +25,7 @@ meaningfully, show the diff and ask before replacing.
    | --- | --- |
    | [`config/tsconfig.json`](config/tsconfig.json) | `tsconfig.json` |
    | [`config/oxlintrc.json`](config/oxlintrc.json) | `.oxlintrc.json` |
+   | [`config/oxlint-plugin.js`](config/oxlint-plugin.js) | `scripts/oxlint-plugin.js` (local rules `.oxlintrc.json` loads) |
    | [`config/oxfmtrc.json`](config/oxfmtrc.json) | `.oxfmtrc.json` |
    | [`config/bunfig.toml`](config/bunfig.toml) | `bunfig.toml` |
    | [`config/editorconfig`](config/editorconfig) | `.editorconfig` |
@@ -68,7 +69,7 @@ meaningfully, show the diff and ask before replacing.
 | Folder | Contains |
 | --- | --- |
 | [`stack/`](stack/) | Runtime/language/library preferences + per-archetype setup notes. **Read first.** |
-| [`config/`](config/) | Drop-in config files: tsconfig, Oxlint, Oxfmt, bunfig, editorconfig, gitignore, package.json template, husky hook. |
+| [`config/`](config/) | Drop-in config files: tsconfig, Oxlint (+ local rules plugin), Oxfmt, bunfig, editorconfig, gitignore, package.json template, husky hook. |
 | [`ide/`](ide/) | `.vscode` extensions + settings. |
 | [`agents/`](agents/) | `AGENTS.md` base, `CLAUDE.md` pointer, and the `changelog` skill for Tegami repos. |
 | [`ci/`](ci/) | GitHub Actions: CI + Tegami release/PR-preview workflows, and the `scripts/tegami.mts` config. |

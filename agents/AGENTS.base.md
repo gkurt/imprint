@@ -45,11 +45,6 @@ formatter and `tsc` own all mechanical style rules. Fix the code; don't disable 
 - Check for existing utilities/hooks/components before creating new ones. Avoid duplication.
 - Remove dead and commented-out code; don't preserve old APIs unless asked.
 - When moving or relocating code (functions, components, utilities), don't leave a re-export behind for backwards compatibility. Update every importer to point at the new location and delete the old definition, so there is a single source of truth.
-<!-- For React Projects -->
-- Variables and regular functions shouldn't be prefixed with `use`. The `use` prefix should be reserved for React hooks.
-- Avoid `useEffect` unless absolutely necessary; prefer custom hooks.
-  - If you decided to use `useEffect`, read this first, and reevaluate your decision: https://react.dev/learn/you-might-not-need-an-effect
-  - Always put a comment explaining what the effect does.
 
 ## Documentation
 
