@@ -59,15 +59,15 @@ meaningfully, show the diff and ask before replacing.
    [`changelog` skill](agents/skills/changelog/) → `.claude/skills/changelog/`.
 
 6. **GitHub repo settings** — [`github/settings.md`](github/settings.md). Apply
-   branch protection, merge settings, and publishing config (ideally with `gh`).
+   merge settings and publishing config (ideally with `gh`).
    With the Tegami release workflow, always allow GitHub Actions to create pull
    requests ([Actions & publishing](github/settings.md#actions--publishing)) —
    set it with `gh` and confirm it, don't leave it to the user.
 
 7. **Finish**: install deps (`bun i`), run `bun run checks`, and fix anything the
    linter/formatter flags. Report what you changed and what still needs the
-   user's hand (npm trusted-publishing setup, branch protection that needs the UI,
-   an Actions permission the organization blocks).
+   user's hand (npm trusted-publishing setup, an Actions permission the
+   organization blocks).
 
 ## Directory map
 

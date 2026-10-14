@@ -36,17 +36,6 @@ gh repo edit \
   --delete-branch-on-merge --allow-update-branch
 ```
 
-## Branch protection for `main`
-
-- Require the **CI** status check (`checks`) to pass before merge.
-- Require branches to be up to date before merging.
-- Require a PR before merging (solo repos: keep required approvals at 0 so you can self-merge).
-- Do **not** allow force pushes or deletions on `main`.
-
-Note: `release.yml` pushes version-bump commits to `main`, so if you enable
-"require PR before merge" strictly, allow the release GitHub App / token to bypass,
-or rely on the Version Packages PR flow.
-
 ## Actions & publishing
 
 - **Workflow permissions**: allow GitHub Actions to create and approve pull

@@ -102,5 +102,4 @@ Read `stack/README.md` first to decide the archetype.
 - Install deps and run the aggregate check (`bun run checks`). Fix what
   lint/format flags.
 - Summarize what you copied, merged, and skipped (and why).
-- Flag what needs the user's hands: npm trusted publishing, branch protection
-  that needs the GitHub UI, secrets.
+- Flag what needs the user's hands: npm trusted publishing, secrets.
