@@ -44,6 +44,7 @@ formatter and `tsc` own all mechanical style rules. Fix the code; don't disable 
 - Prefer early returns and guard clauses over nested conditionals.
 - Check for existing utilities/hooks/components before creating new ones. Avoid duplication.
 - Remove dead and commented-out code; don't preserve old APIs unless asked.
+- Line endings are LF, on every OS. Scripts that write files must write LF too: on Windows, Python's text mode writes CRLF unless opened with `newline=''`.
 - When moving or relocating code (functions, components, utilities), don't leave a re-export behind for backwards compatibility. Update every importer to point at the new location and delete the old definition, so there is a single source of truth.
 
 ## Documentation

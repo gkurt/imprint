@@ -50,7 +50,20 @@ or rely on the Version Packages PR flow.
 ## Actions & publishing
 
 - **Workflow permissions**: allow GitHub Actions to create and approve pull
-  requests (Tegami opens the "Version Packages" PR). Settings → Actions → General.
+  requests, or the release workflow can't open Tegami's "Version Packages" PR.
+  Keep the default token read-only; each workflow asks for the write
+  permissions it needs. Agents: set it with `gh` (in the UI: Settings → Actions
+  → General → Workflow permissions), then read it back to confirm:
+
+  ```bash
+  gh api -X PUT repos/<owner>/<repo>/actions/permissions/workflow \
+    -f default_workflow_permissions=read -F can_approve_pull_request_reviews=true
+  gh api repos/<owner>/<repo>/actions/permissions/workflow
+  # {"default_workflow_permissions":"read","can_approve_pull_request_reviews":true}
+  ```
+
+  In an organization, the org's Actions settings must allow it first. If the
+  call is refused, report it as one for the user's hand.
 - **npm trusted publishing**: on npmjs.com, configure the package to trust this
   repo's `release.yml`. No `NPM_TOKEN` secret needed — `id-token: write` handles OIDC.
 - For docs sites: Settings → Pages → source = GitHub Actions.
