@@ -30,6 +30,7 @@ meaningfully, show the diff and ask before replacing.
    | [`config/bunfig.toml`](config/bunfig.toml) | `bunfig.toml` |
    | [`config/editorconfig`](config/editorconfig) | `.editorconfig` |
    | [`config/gitignore`](config/gitignore) | `.gitignore` |
+   | [`config/gitattributes`](config/gitattributes) | `.gitattributes` (LF line endings; in an existing repo, then run `git add --renormalize .` and commit what it changes) |
    | [`config/package.template.json`](config/package.template.json) | `package.json` (fill placeholders; merge into an existing one) |
    | [`config/tsconfig.project.json`](config/tsconfig.project.json) | `packages/<pkg>/tsconfig.json` in monorepos |
    | [`config/husky-pre-commit`](config/husky-pre-commit) | `.husky/pre-commit` (then `bunx husky init` / set `chmod +x`) |
@@ -40,7 +41,7 @@ meaningfully, show the diff and ask before replacing.
    bun add -d @types/bun typescript oxlint oxlint-tsgolint oxfmt husky lint-staged
    ```
 
-   The dotless names (`oxlintrc.json`, `oxfmtrc.json`, `editorconfig`, `gitignore`, `husky-pre-commit`) are stored
+   The dotless names (`oxlintrc.json`, `oxfmtrc.json`, `editorconfig`, `gitignore`, `gitattributes`, `husky-pre-commit`) are stored
    that way so they don't take effect inside this repo — **rename on copy**.
 
 3. **IDE settings** — [`ide/`](ide/). Copy `extensions.json` and `settings.json`
@@ -63,19 +64,22 @@ meaningfully, show the diff and ask before replacing.
    repo already has the skill, update it rather than adding a second copy.
 
 7. **GitHub repo settings** — [`github/settings.md`](github/settings.md). Apply
-   branch protection, merge settings, and publishing config (ideally with `gh`).
+   merge settings and publishing config (ideally with `gh`).
+   With the Tegami release workflow, always allow GitHub Actions to create pull
+   requests ([Actions & publishing](github/settings.md#actions--publishing)) —
+   set it with `gh` and confirm it, don't leave it to the user.
 
 8. **Finish**: install deps (`bun i`), run `bun run checks`, and fix anything the
    linter/formatter flags. Report what you changed, which skills you installed or
-   skipped, and what still needs the user's hand (npm trusted-publishing setup,
-   branch protection that needs the UI).
+   skipped, and what still needs the user's hand (npm trusted-publishing setup, an
+   Actions permission the organization blocks).
 
 ## Directory map
 
 | Folder | Contains |
 | --- | --- |
 | [`stack/`](stack/) | Runtime/language/library preferences + per-archetype setup notes. **Read first.** |
-| [`config/`](config/) | Drop-in config files: tsconfig, Oxlint (+ local rules plugin), Oxfmt, bunfig, editorconfig, gitignore, package.json template, husky hook. |
+| [`config/`](config/) | Drop-in config files: tsconfig, Oxlint (+ local rules plugin), Oxfmt, bunfig, editorconfig, gitignore, gitattributes, package.json template, husky hook. |
 | [`ide/`](ide/) | `.vscode` extensions + settings. |
 | [`agents/`](agents/) | `AGENTS.md` base and `CLAUDE.md` pointer. |
 | [`ci/`](ci/) | GitHub Actions: CI + Tegami release/PR-preview workflows, and the `scripts/tegami.mts` config. |
