@@ -41,7 +41,7 @@ can also install any of them without imprinting:
 
 | Skill | What it does |
 | --- | --- |
-| [`post-cutoff`](skills/post-cutoff/) | An index of git, `gh` and GitHub features newer than most models' training, pointing to official docs and skills. |
+| [`post-cutoff`](skills/post-cutoff/) | A script that lists git, `gh` and GitHub features newer than a model's training cutoff, pointing to official docs and skills. |
 | [`changelog`](skills/changelog/) | Writes [Tegami](https://tegami.fuma-nama.dev) changelog entries. |
 
 ```bash

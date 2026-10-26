@@ -9,6 +9,6 @@ applies.
   into projects.
 - [`changelog/`](changelog/) → repos that release with Tegami. Teaches agents to write
   `.tegami/<slug>.md` entries.
-- [`post-cutoff/`](post-cutoff/) → every repo. An index of git, `gh` and GitHub features
-  newer than most models' training, pointing to official docs and skills. Re-copy it
-  when it's updated here.
+- [`post-cutoff/`](post-cutoff/) → every repo. A script that lists git, `gh` and GitHub
+  features newer than a model's training cutoff, pointing to official docs and skills.
+  Re-copy it when it's updated here.

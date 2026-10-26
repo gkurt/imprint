@@ -1,47 +1,48 @@
 ---
 name: post-cutoff
-description: Index of git, GitHub CLI (gh) and GitHub platform features released from April 2026 on — commands, flags and workflows a model trained earlier will not know exist. Read before running git or gh commands, opening or editing pull requests and issues, rewriting history, or choosing a branching, review or merge workflow; and whenever the user names a git, gh or GitHub feature you do not recognize. It only says what exists and where it is documented; it defers to official docs and official skills for how to use it.
+description: Lists git, GitHub CLI (gh) and GitHub platform features released after your training cutoff — commands, flags and workflows you will not know exist. Run its script with your model ID before running git or gh commands, opening or editing pull requests and issues, rewriting history, or choosing a branching, review or merge workflow; and whenever the user names a git, gh or GitHub feature you do not recognize. It only says what exists and where it is documented; it defers to official docs and official skills for how to use it.
 ---
 
-# Post-cutoff index
+# Post-cutoff
 
-An index, not a manual. Each entry says that a feature exists, when it shipped, how to
-confirm it locally, and where the authoritative explanation lives. Learn the details from
-that source, not from this file.
+A script that lists the features newer than your training cutoff, one line each, and
+gives the details of a feature only when you ask for it. Run it from this skill's
+directory with Node 22.18+ or Bun.
 
-Last reviewed: **2026-10-26**. For anything newer, read the changelogs listed at the top of
-each reference file.
+## 1. List what is new for the tools you are about to use
 
-## Reference files
+```bash
+node scripts/post-cutoff.mts --tool <tools> --model <your model ID>
+```
 
-Open only the file for the tool you are about to use.
+- `--tool` is required. Pass only the tools the task involves: `gh`, `git`, `github`
+  (the github.com platform), comma-separated.
+- `--model` takes your own model ID (e.g. `claude-opus-5-5`). If it is unknown, the
+  error lists the known ones; pass `--date <your training cutoff, YYYY-MM>` instead.
+- The list starts 3 months before your cutoff, since you know little about those months.
 
-| File | Covers |
-|---|---|
-| `references/gh.md` | GitHub CLI and official `gh` extensions |
-| `references/git.md` | Git |
-| `references/github.md` | github.com platform features |
+Each line is an id, release date and version, and the feature's name. Lines marked
+`[needs <tool> >= <version>]` are newer than the installed tool: tell the user an
+upgrade is needed instead of improvising a workaround.
 
-## How to use an entry
+## 2. Read the details only of features you are going to use
 
-1. **Skip entries older than your training cutoff.** You already know them.
-2. **Released does not mean installed.** Compare the entry's version with `gh --version` or
-   `git --version`. If the installed one is older, tell the user the feature needs an
-   upgrade. Do not improvise a workaround that imitates it.
-3. **Run the Check command.** Local `--help` output is authoritative for the installed
-   version and wins over this index when they disagree.
-4. **Use the official skill when an entry lists one.** If it is installed, load it and
-   follow it. If it is not, give the user its install command; do not install it unasked.
-5. **Read the Docs link before relying on details** such as flag semantics, limits and edge
-   cases. Do not fill gaps from memory.
-6. **Preview and experimental features change without notice.** Re-check `--help` rather
-   than trusting this index or an earlier session.
+```bash
+node scripts/post-cutoff.mts --details <id>[,<id>]
+```
 
-## Maintaining this index
+This prints the summary, a `check` command, the `docs` link and any official skill.
+Skip it for features that do not bear on the task. Before using a feature:
 
-- One row per feature: date, version, a clause naming what it does, a check, a primary source.
-- Add only features that change which command or workflow you would choose. Leave out
-  performance work, internals and bug fixes.
-- Sources are release notes, changelog posts and official docs. Secondary coverage is
-  allowed only when marked `(unconfirmed)`.
-- Delete rows once every model in use was trained after them. Keep each file under ~60 rows.
+1. **Use the official skill if the entry lists one.** If it is installed, load it and
+   follow it; it supersedes this skill. If not, give the user its install command; do
+   not install it unasked.
+2. **Run the `check` command.** Local `--help` output is authoritative for the installed
+   version and wins over this skill when they disagree.
+3. **Read the `docs` link before relying on details** such as flag semantics, limits
+   and edge cases. Do not fill gaps from memory.
+4. **Preview and experimental features change without notice.** Re-check `--help`
+   rather than trusting an earlier session.
+
+Anything after a tool's `reviewed` date is not listed; the index links that tool's
+changelogs for it. Add `--json` to either command for machine-readable output.
