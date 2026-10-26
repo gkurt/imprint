@@ -25,7 +25,7 @@ release workflows, and a GitHub settings checklist. See the
 Install the skill:
 
 ```bash
-npx skills add gkurt/imprint
+npx skills add gkurt/imprint --skill imprint
 ```
 
 Then, in any repo, ask your agent to **imprint** it. The skill will:
@@ -33,6 +33,27 @@ Then, in any repo, ask your agent to **imprint** it. The skill will:
 1. Look for **your own** `<your-username>/imprint` repo and use that.
 2. If you don't have one yet, offer to imprint from someone else's — **defaulting to mine (`gkurt`)**.
 3. Read that repo's `IMPRINT.md` and apply the preferences to the current project, adapting to what it already is.
+
+## Use the skills on their own
+
+Imprinting installs the skills in [`skills/`](skills/) into the projects they fit. You
+can also install any of them without imprinting:
+
+| Skill | What it does |
+| --- | --- |
+| [`post-cutoff`](skills/post-cutoff/) | An index of git, `gh` and GitHub features newer than most models' training, pointing to official docs and skills. |
+| [`changelog`](skills/changelog/) | Writes [Tegami](https://tegami.fuma-nama.dev) changelog entries. |
+
+```bash
+# into the current project
+npx skills add gkurt/imprint --skill changelog
+
+# for every project (-g)
+npx skills add gkurt/imprint --skill post-cutoff -g
+
+# or with the GitHub CLI
+gh skill install gkurt/imprint post-cutoff
+```
 
 ## Make it yours
 
@@ -44,7 +65,7 @@ imprints *your* conventions instead of mine.
 The fast path — let the skill do it:
 
 ```bash
-# after `npx skills add gkurt/imprint`
+# after `npx skills add gkurt/imprint --skill imprint`
 claude /imprint fork
 ```
 

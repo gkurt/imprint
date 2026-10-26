@@ -12,8 +12,9 @@ content between them.
   [`config/oxlintrc.json`](../config/oxlintrc.json) / [`oxfmtrc.json`](../config/oxfmtrc.json)
   / [`tsconfig.json`](../config/tsconfig.json); anything only some tasks need belongs in a skill.
 - [`CLAUDE.md`](CLAUDE.md) → copy to `CLAUDE.md` verbatim.
-- [`skills/changelog/`](skills/changelog/) → `.claude/skills/changelog/` in repos that
-  release with Tegami. Teaches agents to write `.tegami/<slug>.md` entries.
 
 Any other assistant that reads its own file (`.cursorrules`, `.github/copilot-instructions.md`)
 should also just point at `AGENTS.md` rather than fork the rules.
+
+Agent skills live in [`skills/`](../skills/); see [`skills/README.md`](../skills/README.md)
+for which projects each one is installed into.

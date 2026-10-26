@@ -6,9 +6,8 @@ disable-model-invocation: true
 argument-hint: "[fork]"
 license: MIT
 metadata:
-  - type: repo
-    name: gkurt/imprint
-    url: https://github.com/gkurt/imprint
+  repo: gkurt/imprint
+  url: https://github.com/gkurt/imprint
 ---
 
 # Imprint

@@ -54,15 +54,21 @@ meaningfully, show the diff and ask before replacing.
    See [`ci/README.md`](ci/README.md). Use `ci.yml` always; add the Tegami
    `release.yml` + PR-preview pair for publishable packages, plus
    [`ci/tegami.mts`](ci/tegami.mts) → `scripts/tegami.mts` (fill in the repo slug
-   and the primary package name) and the
-   [`changelog` skill](agents/skills/changelog/) → `.claude/skills/changelog/`.
+   and the primary package name).
 
-6. **GitHub repo settings** — [`github/settings.md`](github/settings.md). Apply
+6. **Agent skills** — [`skills/`](skills/). Install every skill there except `imprint`
+   that fits the project into `.claude/skills/<name>/`. Each skill's entry in
+   [`skills/README.md`](skills/README.md) and its `SKILL.md` description say when it
+   applies (e.g. `changelog` only with the Tegami release setup from step 5). If the
+   repo already has the skill, update it rather than adding a second copy.
+
+7. **GitHub repo settings** — [`github/settings.md`](github/settings.md). Apply
    branch protection, merge settings, and publishing config (ideally with `gh`).
 
-7. **Finish**: install deps (`bun i`), run `bun run checks`, and fix anything the
-   linter/formatter flags. Report what you changed and what still needs the
-   user's hand (npm trusted-publishing setup, branch protection that needs the UI).
+8. **Finish**: install deps (`bun i`), run `bun run checks`, and fix anything the
+   linter/formatter flags. Report what you changed, which skills you installed or
+   skipped, and what still needs the user's hand (npm trusted-publishing setup,
+   branch protection that needs the UI).
 
 ## Directory map
 
@@ -71,10 +77,10 @@ meaningfully, show the diff and ask before replacing.
 | [`stack/`](stack/) | Runtime/language/library preferences + per-archetype setup notes. **Read first.** |
 | [`config/`](config/) | Drop-in config files: tsconfig, Oxlint (+ local rules plugin), Oxfmt, bunfig, editorconfig, gitignore, package.json template, husky hook. |
 | [`ide/`](ide/) | `.vscode` extensions + settings. |
-| [`agents/`](agents/) | `AGENTS.md` base, `CLAUDE.md` pointer, and the `changelog` skill for Tegami repos. |
+| [`agents/`](agents/) | `AGENTS.md` base and `CLAUDE.md` pointer. |
 | [`ci/`](ci/) | GitHub Actions: CI + Tegami release/PR-preview workflows, and the `scripts/tegami.mts` config. |
 | [`github/`](github/) | GitHub repo settings checklist. |
-| [`skills/imprint/`](skills/imprint/) | The installable `imprint` skill that drives this. |
+| [`skills/`](skills/) | Agent skills: [`imprint`](skills/imprint/), which drives this, and the skills step 6 installs into projects. |
 
 ## Principles behind the choices
 
