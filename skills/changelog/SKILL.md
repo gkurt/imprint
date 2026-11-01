@@ -20,5 +20,7 @@ packages:
 
 - The body needs at least one heading. Tegami silently drops an entry without one.
 - One sentence under the heading, often none — the heading is usually the whole entry.
+- Don't bump `version` in `package.json` — the entry is the bump. Tegami applies it
+  in the release workflow's version PR.
 - Write only what landed. A product change gets the user-facing effect; a refactor
   gets the new shape or the removed API. Nothing else.

@@ -4,7 +4,7 @@ Drop the workflows into `.github/workflows/` and [`tegami.mts`](tegami.mts) into
 
 | File | Trigger | Purpose |
 | --- | --- | --- |
-| [`ci.yml`](ci.yml) | push / PR to `main`, manual | Lint + test + typecheck (add a build step for publishable packages). |
+| [`ci.yml`](ci.yml) | push / PR to `main`, manual | Lint + format check, type check (`bun check`), test (add a build step for publishable packages). |
 | [`release.yml`](release.yml) | push to `main` | [Tegami](https://tegami.fuma-nama.dev): opens a "Version Packages" PR when changelogs are pending, otherwise publishes. Uses npm trusted publishing (OIDC) — no `NPM_TOKEN`. |
 | [`tegami-pr.yml`](tegami-pr.yml) | PR | Builds a release-preview artifact. Runs untrusted PR code but stays read-only. |
 | [`tegami-pr-comment.yml`](tegami-pr-comment.yml) | `workflow_run` of the above | Posts the preview as a PR comment with write perms, without running PR code. |

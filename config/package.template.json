@@ -23,16 +23,13 @@
   "scripts": {
     "start": "bun src/index.ts",
     "dev": "bun --watch src/index.ts",
-    "typecheck": "tsc",
-    "lint": "oxlint",
-    "format": "oxfmt",
-    "check": "oxlint && oxfmt --check",
-    "fix": "oxlint --fix && oxfmt",
+    "lint": "oxlint && bun fmt --check",
+    "fix": "oxlint --fix && bun fmt",
     "test": "bun test",
-    "checks": "bun check && bun typecheck && bun run test",
+    "checks": "bun run lint && bun check && bun run test",
     "prepare": "husky"
   },
   "lint-staged": {
-    "*": ["oxlint --fix --no-error-on-unmatched-pattern", "oxfmt --no-error-on-unmatched-pattern"]
+    "*": ["oxlint --fix --no-error-on-unmatched-pattern"]
   }
 }

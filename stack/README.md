@@ -11,15 +11,16 @@ behind the latest release, still take the latest.
 
 | Concern | Default | Notes |
 | --- | --- | --- |
-| Runtime & package manager | **Bun** | `bunfig.toml` with isolated linker. `bun i`, `bun test`, `bun run`. |
-| Language | **TypeScript**, strict, ESM | `"type": "module"`, `nodenext`, `verbatimModuleSyntax`, `.ts` extension imports. |
-| Type checker | **TypeScript 7** (native `tsc`) | TS7 ships the native (Go) compiler as `tsc` — no separate `tsgo` binary. `typecheck` script is `tsc`. In the editor: `TypeScriptTeam.native-preview` + `js/ts.experimental.useTsgo` (see [`ide/`](../ide/)). |
-| Lint + format | **Oxlint** + **Oxfmt** | The Oxc toolchain, replaces ESLint **and** Prettier. Never add Prettier. Oxlint has the React Compiler rules built in and runs type-aware rules via `oxlint-tsgolint`; Oxfmt sorts imports. |
+| Runtime & package manager | **Bun** ≥ 1.4.4 | `bunfig.toml` with isolated linker. `bun i`, `bun test`, `bun run`. 1.4.4 is the first with both `bun fmt` and `bun check` as used here. |
+| Language | **TypeScript 7.1**, strict, ESM | `"type": "module"`, `nodenext`, `verbatimModuleSyntax`, `.ts` extension imports. 7.1 is still pre-release: install it by its npm tag (see [`IMPRINT.md`](../IMPRINT.md) step 2). |
+| Type checker | **`bun check`** | Bun's built-in checker: reads `tsconfig.json`, reports the same errors as TS7 `tsc`, follows 7.1, and never emits. No `typecheck` script and no `tsc` call; keep `tsc` only to emit `.d.ts`. The `typescript` package stays as a dev dep for the editor: `TypeScriptTeam.native-preview` + `js/ts.experimental.useTsgo` (see [`ide/`](../ide/)). |
+| Lint | **Oxlint** | Replaces ESLint. Has the React Compiler rules built in and runs type-aware rules via `oxlint-tsgolint`. |
+| Format | **`bun fmt`** | Bun's built-in Prettier-compatible formatter, replacing Oxfmt. Never add Prettier or Oxfmt. Config is the `[fmt]` section of `bunfig.toml`; it sorts imports. |
 | Testing | **`bun test`** | Config in `bunfig.toml` (`onlyFailures = true`). Vitest only for non-Bun libs. |
 | E2E | **Playwright** | Its own `e2e/` workspace + a CI job. |
-| Build | match the artifact, **ESM-only** | `tsdown` or `bun build --compile` for Bun libs/CLIs; Vite/esbuild for extensions. Ship ESM only — no CJS/dual publishing. Typecheck (`noEmit`) is separate from build. |
+| Build | match the artifact, **ESM-only** | `tsdown` or `bun build --compile` for Bun libs/CLIs; Vite/esbuild for extensions. Ship ESM only — no CJS/dual publishing. Type checking (`bun check`) is separate from build. |
 | Release | **Tegami** | Successor to Changesets. npm trusted publishing via OIDC. |
-| Git hooks | **husky** + **lint-staged** | `oxlint --fix` + `oxfmt` on staged files. |
+| Git hooks | **husky** + **lint-staged** | lint-staged runs `oxlint --fix` on staged files, then `bun fmt --staged` formats and re-stages them. |
 
 ## Monorepo layout
 
@@ -48,10 +49,14 @@ to stale `dist`.
 
 ## Script vocabulary
 
-Keep script names consistent across repos: `start`, `dev`, `typecheck` (`tsc`),
-`lint` (`oxlint`) / `format` (`oxfmt`) / `check` / `fix`, `test`, and the composite gate
-`checks` = `bun check && bun typecheck && bun run test`. `prepare: husky`,
+Keep script names consistent across repos: `start`, `dev`, `lint`
+(`oxlint && bun fmt --check`), `fix` (`oxlint --fix && bun fmt`), `test`, and the
+composite gate `checks` = `bun run lint && bun check && bun run test`. `prepare: husky`,
 `tegami: bun scripts/tegami.mts`.
+
+Type checking and formatting are the Bun built-ins `bun check` and `bun fmt`, so
+there's no `typecheck`, `format`, `check` or `fmt` script. A `check` or `fmt` script
+would shadow the built-in of the same name.
 
 ## Libraries by need
 

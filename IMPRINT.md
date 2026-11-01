@@ -18,7 +18,7 @@ meaningfully, show the diff and ask before replacing.
 
 1. **Read [`stack/README.md`](stack/README.md) first.** It's the philosophy — the
    runtime, language, and library defaults everything else assumes (Bun +
-   TypeScript + Oxlint/Oxfmt + ESM). Decide the project archetype before copying files.
+   TypeScript + Oxlint + `bun fmt`/`bun check` + ESM). Decide the project archetype before copying files.
 
 2. **Config files** — [`config/`](config/). Copy into the repo root:
    | Source | Destination |
@@ -26,8 +26,7 @@ meaningfully, show the diff and ask before replacing.
    | [`config/tsconfig.json`](config/tsconfig.json) | `tsconfig.json` |
    | [`config/oxlintrc.json`](config/oxlintrc.json) | `.oxlintrc.json` |
    | [`config/oxlint-plugin.js`](config/oxlint-plugin.js) | `scripts/oxlint-plugin.js` (local rules `.oxlintrc.json` loads) |
-   | [`config/oxfmtrc.json`](config/oxfmtrc.json) | `.oxfmtrc.json` |
-   | [`config/bunfig.toml`](config/bunfig.toml) | `bunfig.toml` |
+   | [`config/bunfig.toml`](config/bunfig.toml) | `bunfig.toml` (includes the `[fmt]` formatter config) |
    | [`config/editorconfig`](config/editorconfig) | `.editorconfig` |
    | [`config/gitignore`](config/gitignore) | `.gitignore` |
    | [`config/gitattributes`](config/gitattributes) | `.gitattributes` (LF line endings; in an existing repo, then run `git add --renormalize .` and commit what it changes) |
@@ -38,10 +37,23 @@ meaningfully, show the diff and ask before replacing.
    Then install the tooling at its latest version (the template carries no versions):
 
    ```bash
-   bun add -d @types/bun typescript oxlint oxlint-tsgolint oxfmt husky lint-staged
+   bun add -d @types/bun oxlint oxlint-tsgolint husky lint-staged
    ```
 
-   The dotless names (`oxlintrc.json`, `oxfmtrc.json`, `editorconfig`, `gitignore`, `gitattributes`, `husky-pre-commit`) are stored
+   TypeScript is pinned to 7.1, which is still pre-release. Install the newest 7.1
+   tag: `rc` once `npm view typescript dist-tags` shows a `7.1.0-rc`, `beta` until then.
+   Once `latest` is 7.1 or newer, install plain `typescript` like everything else.
+
+   ```bash
+   bun add -d typescript@beta   # typescript@rc once the rc tag is 7.1
+   ```
+
+   Formatting and type checking need no packages: `bun fmt` and `bun check` are
+   built into Bun 1.4.4+. If the repo already has Prettier or Oxfmt, run
+   `bun fmt --doctor`, move the settings into `bunfig.toml`, delete the old config,
+   and remove the packages it lists.
+
+   The dotless names (`oxlintrc.json`, `editorconfig`, `gitignore`, `gitattributes`, `husky-pre-commit`) are stored
    that way so they don't take effect inside this repo — **rename on copy**.
 
 3. **IDE settings** — [`ide/`](ide/). Copy `extensions.json` and `settings.json`
@@ -79,7 +91,7 @@ meaningfully, show the diff and ask before replacing.
 | Folder | Contains |
 | --- | --- |
 | [`stack/`](stack/) | Runtime/language/library preferences + per-archetype setup notes. **Read first.** |
-| [`config/`](config/) | Drop-in config files: tsconfig, Oxlint (+ local rules plugin), Oxfmt, bunfig, editorconfig, gitignore, gitattributes, package.json template, husky hook. |
+| [`config/`](config/) | Drop-in config files: tsconfig, Oxlint (+ local rules plugin), bunfig (+ `bun fmt` config), editorconfig, gitignore, gitattributes, package.json template, husky hook. |
 | [`ide/`](ide/) | `.vscode` extensions + settings. |
 | [`agents/`](agents/) | `AGENTS.md` base and `CLAUDE.md` pointer. |
 | [`ci/`](ci/) | GitHub Actions: CI + Tegami release/PR-preview workflows, and the `scripts/tegami.mts` config. |
@@ -88,8 +100,8 @@ meaningfully, show the diff and ask before replacing.
 
 ## Principles behind the choices
 
-- **One toolchain per job**: Oxc — Oxlint + Oxfmt (not ESLint + Prettier), Bun (not Node + npm + a bundler for scripts).
+- **One toolchain per job**: Oxlint (not ESLint), Bun for everything else — runtime, package manager, tests, formatting (`bun fmt`, not Prettier) and type checking (`bun check`, not `tsc`).
 - **Run source in dev, ship built code**: the `<pkg>@dev` export condition.
-- **Modern but strict**: TypeScript 7 (native `tsc`), ESM-only, `strict` + `noUncheckedIndexedAccess`.
+- **Modern but strict**: TypeScript 7.1, ESM-only, `strict` + `noUncheckedIndexedAccess`.
 - **`AGENTS.md` is canonical**; every other assistant file points at it. It holds only what every task needs — mechanical rules go in lint/format/tsconfig, task-specific ones in skills.
 - **Consistency across repos**: same script names, same formatter values, same CI shape.

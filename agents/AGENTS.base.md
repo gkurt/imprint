@@ -13,17 +13,17 @@ This file provides guidance to AI agents when working with code in this reposito
 ```bash
 bun dev            # Run in watch mode
 bun run test       # Run all tests
-bun typecheck      # Type check (TypeScript 7, native tsc)
-bun run lint       # Lint
-bun run format     # Format
-bun run fix        # Lint + format + autofix
-bun run checks     # Everything: check + typecheck + test
+bun check          # Type check (Bun's built-in checker, same errors as TypeScript 7 tsc)
+bun fmt            # Format (Bun's built-in formatter)
+bun run lint       # Lint + format check
+bun run fix        # Lint autofix + format
+bun run checks     # Everything: lint + type check + test
 ```
 
-Prefer these scripts over ad-hoc commands. Do not prefix them with `bun run` when
-a bare alias exists (`bun check`, `bun typecheck`) — those are whitelisted for
-agent use. Before finishing, run `bun run fix` then `bun run checks` — the linter,
-formatter and `tsc` own all mechanical style rules. Fix the code; don't disable rules.
+Prefer these commands over ad-hoc ones. `bun check` and `bun fmt` are Bun built-ins,
+not scripts — never add a `check` or `fmt` script, it would shadow them. Before
+finishing, run `bun run fix` then `bun run checks` — the linter, formatter and type
+checker own all mechanical style rules. Fix the code; don't disable rules.
 
 ## Project Structure
 
@@ -45,6 +45,7 @@ formatter and `tsc` own all mechanical style rules. Fix the code; don't disable 
 - Check for existing utilities/hooks/components before creating new ones. Avoid duplication.
 - Remove dead and commented-out code; don't preserve old APIs unless asked.
 - Line endings are LF, on every OS. Scripts that write files must write LF too: on Windows, Python's text mode writes CRLF unless opened with `newline=''`.
+- Don't edit `version` in `package.json` by hand; the release workflow bumps it from the changelog entries. Change it yourself only when the user asks.
 - When moving or relocating code (functions, components, utilities), don't leave a re-export behind for backwards compatibility. Update every importer to point at the new location and delete the old definition, so there is a single source of truth.
 
 ## Documentation

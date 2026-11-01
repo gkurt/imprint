@@ -9,7 +9,7 @@ content between them.
   The rest is identical across repos — keep it as-is.
 - Keep `AGENTS.md` short: judgment calls every task needs. Anything a tool can check
   (formatting, import style, banned APIs, …) belongs in
-  [`config/oxlintrc.json`](../config/oxlintrc.json) / [`oxfmtrc.json`](../config/oxfmtrc.json)
+  [`config/oxlintrc.json`](../config/oxlintrc.json) / [`bunfig.toml`](../config/bunfig.toml) `[fmt]`
   / [`tsconfig.json`](../config/tsconfig.json); anything only some tasks need belongs in a skill.
 - [`CLAUDE.md`](CLAUDE.md) → copy to `CLAUDE.md` verbatim.
 

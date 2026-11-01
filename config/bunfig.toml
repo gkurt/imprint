@@ -9,3 +9,14 @@ linker = "isolated"
 # Only re-print failing tests on reruns.
 [test]
 onlyFailures = true
+
+# Built-in formatter (`bun fmt`). Option names follow Prettier.
+[fmt]
+printWidth = 140
+singleQuote = true
+ignorePatterns = ["**/.claude", "**/build", "**/*.gen.ts", "**/mockServiceWorker.js"]
+
+# Sort within blank-line-separated chunks; never insert blank lines between groups.
+[fmt.sortImports]
+newlinesBetween = false
+partitionByNewline = true
