@@ -54,6 +54,8 @@ Commit after each milestone: once a coherent step works and `bun run checks`
 passes, commit it before starting the next one. Don't save everything for a single
 commit at the end.
 
+Prefer committing on the currently checked out branch, unless specified otherwise.
+
 ## Documentation
 
 When changing user-facing APIs, update all relevant docs in the same change:
