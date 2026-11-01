@@ -48,6 +48,12 @@ checker own all mechanical style rules. Fix the code; don't disable rules.
 - Don't edit `version` in `package.json` by hand; the release workflow bumps it from the changelog entries. Change it yourself only when the user asks.
 - When moving or relocating code (functions, components, utilities), don't leave a re-export behind for backwards compatibility. Update every importer to point at the new location and delete the old definition, so there is a single source of truth.
 
+## Commits
+
+Commit after each milestone: once a coherent step works and `bun run checks`
+passes, commit it before starting the next one. Don't save everything for a single
+commit at the end.
+
 ## Documentation
 
 When changing user-facing APIs, update all relevant docs in the same change:
